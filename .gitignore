@@ -1,0 +1,8 @@
+LocalSettings.php
+docker-compose.override.yml
+.mwutil.json
+.mwutil.data.json
+
+/vendor/
+composer.lock
+.idea/

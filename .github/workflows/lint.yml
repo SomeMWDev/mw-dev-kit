@@ -1,0 +1,15 @@
+name: Lint code
+on:
+  push:
+    branches: [ main, development ]
+  pull_request:
+    branches: [ main, development ]
+jobs:
+  lint-php-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Composer install
+        uses: php-actions/composer@v6
+      - name: Lint PHP code
+        run: composer run test

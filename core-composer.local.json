@@ -1,0 +1,14 @@
+{
+	"extra": {
+		"merge-plugin": {
+			"include": [
+				"extensions/*/composer.json"
+			],
+			"exclude": [
+				"extensions/SemanticDrilldown/composer.json",
+				"extensions/SemanticMediaWiki/composer.json",
+				"extensions/SemanticScribunto/composer.json"
+			]
+		}
+	}
+}

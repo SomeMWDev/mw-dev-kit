@@ -1,0 +1,85 @@
+services:
+  mediawiki:
+    image: docker-registry.wikimedia.org/dev/bookworm-php83-fpm:1.0.0
+    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./core:/var/www/html/w:cached
+      - ./config:/srv/mediawiki-config:cached
+      - ./extensions:/var/www/html/w/extensions
+      - ./skins:/var/www/html/w/skins
+    env_file: config/.env
+    networks: [ mw ]
+  mediawiki-web:
+    image: docker-registry.wikimedia.org/dev/bookworm-apache2:1.0.1
+    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+    ports:
+      - "${MW_DOCKER_PORT:-8080}:8080"
+    volumes:
+      - ./core:/var/www/html/w:cached
+      - ./config:/srv/mediawiki-config:cached
+      - ./extensions:/var/www/html/w/extensions
+      - ./skins:/var/www/html/w/skins
+    env_file: config/.env
+    networks: [ mw ]
+  mediawiki-jobrunner:
+    image: docker-registry.wikimedia.org/dev/bookworm-php83-jobrunner:1.0.0
+    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+    volumes:
+      - ./core:/var/www/html/w:cached
+      - ./config:/srv/mediawiki-config:cached
+      - ./extensions:/var/www/html/w/extensions
+      - ./skins:/var/www/html/w/skins
+    env_file: config/.env
+    networks: [ mw ]
+  elasticsearch:
+    image: docker-registry.wikimedia.org/repos/search-platform/cirrussearch-elasticsearch-image:v7.10.2-5
+    # on an Apple M1 / arm64 system, you can use kostajh/wmf-elasticsearch-arm64:7.10.2,
+    # see https://gitlab.wikimedia.org/kharlan/wmf-elasticsearch-arm64/
+    # image: docker.io/kostajh/wmf-elasticsearch-arm64:7.10.2
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+    networks: [ mw ]
+    ports:
+      - "${ELASTICSEARCH_HTTP_PORT:-9200}:9200"
+      - "${ELASTICSEARCH_TCP_PORT:-9300}:9300"
+    profiles: [ "elasticsearch" ]
+  mariadb:
+    image: mariadb:latest
+    volumes:
+      - mariadbdata:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MWC_DB_ROOT_PASSWORD}
+      - MARIADB_USER=${MWC_DB_USER}
+      - MARIADB_PASSWORD=${MWC_DB_PASSWORD}
+      - MARIADB_DATABASE=${MWC_DB_DATABASE}
+    networks: [ mw ]
+    ports: [ "${MARIADB_PORT:-3306}:3306" ]
+    profiles: [ "mariadb" ]
+  mysql:
+    image: mysql:latest
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MWC_DB_ROOT_PASSWORD}
+      - MYSQL_USER=${MWC_DB_USER}
+      - MYSQL_PASSWORD=${MWC_DB_PASSWORD}
+      - MYSQL_DATABASE=${MWC_DB_DATABASE}
+    networks:
+      - mw
+    ports: [ "${MYSQL_PORT:-3307}:3306" ]
+    profiles: [ "mysql" ]
+
+volumes:
+  esdata:
+    driver: local
+  mariadbdata:
+    driver: local
+  mysqldata:
+    driver: local
+
+networks:
+  mw:
