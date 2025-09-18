@@ -579,6 +579,10 @@ trait MWCExtensions {
 		return $this->ext( 'SimpleBlogPage' );
 	}
 
+	public function SimpleTooltip(): self {
+		return $this->ext( 'SimpleTooltip' );
+	}
+
 	/**
 	 * IMPORTANT: You need to call `require_once $c->extensionFilePath( 'SocialProfile', 'SocialProfile.php' );` in
 	 * LocalSettings.php in addition to calling this function!
@@ -746,6 +750,10 @@ trait MWCExtensions {
 
 	public function WikiLove(): self {
 		return $this->ext( 'WikiLove' );
+	}
+
+	public function WikiPoints(): self {
+		return $this->ext( 'WikiPoints' );
 	}
 
 	public function WikiSEO(): self {
