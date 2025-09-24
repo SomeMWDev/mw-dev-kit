@@ -65,7 +65,7 @@ Requirements:
 11. `ln LocalSettings.php core/LocalSettings.php`
 12. Install MediaWiki (this is done by resetting the installation): `mwutil reset`
 13. Set up the origin and git config for MW core, if you want to contribute to it later: `cd core && mwutil setup-gerrit`
-14. Clone Vector, so you can use it: `mwutil pull skin gerrit Vector --quick --branch <MW Branch>` (note: `--quick` creates a shallow
+14. Clone Vector, so you can use it: `mwutil clone skin gerrit Vector --quick --branch <MW Branch>` (note: `--quick` creates a shallow
     clone; if you plan to contribute to Vector, consider removing the parameter to fully clone it)
 15. Visit `localhost:4001` in your browser
 
