@@ -209,6 +209,20 @@ trait MWCExtensions {
 			->revokePermission( '*', 'createaccount' );
 	}
 
+	public function ContentTranslation( string $server ): self {
+		$wgServer = $this->getConf( 'wgServer' );
+		$this
+			->ext( 'ContentTranslation' )
+			->modConf( 'wgContentTranslationSiteTemplates', static function ( &$c ) use ( $server, $wgServer ) {
+				$c['cx'] = $server;
+				// TODO don't hardcode article path etc
+				$c['view'] = "$wgServer/wiki/$2";
+				$c['action'] = "$wgServer/w/index.php?title=$2";
+				$c['api'] = "$wgServer/w/api.php";
+			} );
+		return $this;
+	}
+
 	public function Contributors(): self {
 		return $this->ext( 'Contributors' );
 	}
