@@ -81,6 +81,15 @@ trait MWCConfig {
 		return $this->conf( 'wgForceDeferredUpdatesPreSend', false );
 	}
 
+	public const int UNIT_KIBIBYTE = 0;
+	public const int UNIT_MEBIBYTE = 1;
+	public const int UNIT_GIBIBYTE = 2;
+
+	public function setMaxArticleSize( int $amount, int $unit ): self {
+		$kibibytes = $amount * pow( 1024, $unit );
+		return $this->conf( 'wgMaxArticleSize', $kibibytes );
+	}
+
 	public function useInstantCommons(): self {
 		return $this->conf( 'wgUseInstantCommons', true );
 	}
