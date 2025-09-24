@@ -54,25 +54,20 @@ Requirements:
 2. `cp ./config/.env.example ./config/.env`
 3. Edit `./config/.env` and customize the options. At least `MEDIAWIKI_PASSWORD`, `DB_ROOT_PASSWORD`, `CHANGE_ME`,
    `MW_SECRET_KEY` and the git/gerrit sections should be changed
-4. Change the URL of the core submodule so SSH is used to clone it:
-   `git config submodule.core.url ssh://<username>@gerrit.wikimedia.org:29418/mediawiki/core` (replace `<username>` with
+4. Clone core using SSH: `git clone ssh://<username>@gerrit.wikimedia.org:29418/mediawiki/core` (replace `<username>` with
    your gerrit username)
-5. Clone core: `git submodule update --remote`
-6. `ln core-composer.local.json core/composer.local.json`
-7. Setup [mwutil](https://github.com/SomeMWDev/mwutil) if you haven't yet
-8. Create an empty mwutil config file: `echo "{}" > .mwutil.json`
-9. Start the containers: `mwutil up`
-10. Install the dependencies: `mwutil bash composer install`
-11. Create a default LocalSettings.php file: `cp LocalSettings.default.php LocalSettings.php`
-12. `ln LocalSettings.php core/LocalSettings.php`
-13. Install MediaWiki (this is done by resetting the installation): `mwutil reset`
-14. `cd core`
-15. Set up the origin for MW core, if you want to contribute to it later:
-    `git remote set-url origin ssh://<username>@gerrit.wikimedia.org:29418/mediawiki/core` (replace `<username>` with
-    your gerrit username)
-16. Clone Vector, so you can use it: `mwutil pull skin --gerrit skins/Vector --quick` (note: `--quick` creates a shallow
+5. `ln core-composer.local.json core/composer.local.json`
+6. Setup [mwutil](https://github.com/SomeMWDev/mwutil) if you haven't yet
+7. Create an empty mwutil config file: `echo "{}" > .mwutil.json`
+8. Start the containers: `mwutil up`
+9. Install the dependencies: `mwutil bash composer install`
+10. Create a default LocalSettings.php file: `cp LocalSettings.default.php LocalSettings.php`
+11. `ln LocalSettings.php core/LocalSettings.php`
+12. Install MediaWiki (this is done by resetting the installation): `mwutil reset`
+13. Set up the origin and git config for MW core, if you want to contribute to it later: `cd core && mwutil setup-gerrit`
+14. Clone Vector, so you can use it: `mwutil pull skin --gerrit skins/Vector --quick` (note: `--quick` creates a shallow
     clone; if you plan to contribute to Vector, consider removing the parameter to fully clone it)
-17. Visit `localhost:4001` in your browser
+15. Visit `localhost:4001` in your browser
 
 ## Debugging
 
