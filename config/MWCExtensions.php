@@ -566,9 +566,9 @@ trait MWCExtensions {
 	}
 
 	public function SemanticMediaWiki(): self {
-		$this->ext( 'SemanticMediaWiki' );
-		enableSemantics( $this->env( 'MW_SERVER' ) );
-		return $this;
+		return $this
+			->ext( 'SemanticMediaWiki' )
+			->disableSQLStrictMode();
 	}
 
 	public function SemanticScribunto(): self {
