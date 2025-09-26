@@ -171,10 +171,6 @@ trait MWCExtensions {
 			->defaultUserOption( 'usecodemirror', true );
 	}
 
-	public function CognitiveProcessDesigner(): self {
-		return $this->ext( 'CognitiveProcessDesigner' );
-	}
-
 	public function ColorizerToolVe(): self {
 		return $this->ext( 'ColorizerToolVe' );
 	}
@@ -184,7 +180,10 @@ trait MWCExtensions {
 	}
 
 	public function CommentStreams(): self {
-		return $this->ext( 'CommentStreams' );
+		return $this
+			->ext( 'CommentStreams' )
+			->conf( 'wgAllowDisplayTitle', true )
+			->conf( 'wgRestrictDisplayTitle', false );
 	}
 
 	public function CommunityConfiguration(): self {
@@ -237,6 +236,10 @@ trait MWCExtensions {
 
 	public function CreatePage(): self {
 		return $this->ext( 'CreatePage' );
+	}
+
+	public function CSS(): self {
+		return $this->ext( 'CSS' );
 	}
 
 	public function DataMaps(): self {
@@ -787,6 +790,10 @@ trait MWCExtensions {
 			// strict mode is seemingly unsupported by mwstake-mediawiki-component-datastore
 			->disableSQLStrictMode()
 			->ext( 'BlueSpiceWhoIsOnline' );
+	}
+
+	public function CognitiveProcessDesigner(): self {
+		return $this->ext( 'CognitiveProcessDesigner' );
 	}
 
 	public function ExtJSBase(): self {
