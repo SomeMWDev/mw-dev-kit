@@ -179,11 +179,12 @@ trait MWCExtensions {
 		return $this->ext( 'Commentbox' );
 	}
 
-	public function CommentStreams(): self {
+	public function CommentStreams( array|int $allowedNamespaces = -1 ): self {
 		return $this
 			->ext( 'CommentStreams' )
 			->conf( 'wgAllowDisplayTitle', true )
-			->conf( 'wgRestrictDisplayTitle', false );
+			->conf( 'wgRestrictDisplayTitle', false )
+			->conf( 'wgCommentStreamsAllowedNamespaces', $allowedNamespaces );
 	}
 
 	public function CommunityConfiguration(): self {
