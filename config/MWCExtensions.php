@@ -273,6 +273,10 @@ trait MWCExtensions {
 			->conf( 'wgDiscordAdditionalIncomingWebhookUrls', $additionalWebhookUrls );
 	}
 
+	public function DiscussionTools(): self {
+		return $this->ext( 'DiscussionTools' );
+	}
+
 	public function DPLforum(): self {
 		return $this->ext( 'DPLforum' );
 	}
@@ -348,6 +352,10 @@ trait MWCExtensions {
 		return $this->ext( 'GuidedTour' );
 	}
 
+	public function HAWelcome(): self {
+		return $this->ext( 'HAWelcome' );
+	}
+
 	public function ImageRating(): self {
 		return $this
 			->VoteNY()
@@ -392,6 +400,10 @@ trait MWCExtensions {
 
 	public function Lockdown(): self {
 		return $this->ext( 'Lockdown' );
+	}
+
+	public function Maps(): self {
+		return $this->ext( 'Maps' );
 	}
 
 	public function MassEditRegex(): self {
