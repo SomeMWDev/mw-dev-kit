@@ -96,8 +96,11 @@ trait MWCExtensions {
 		return $this->ext( 'Bootstrap' );
 	}
 
-	public function Bucket(): self {
-		return $this->ext( 'Bucket' );
+	public function Bucket( string $dbUsername, string $dbPassword ): self {
+		return $this
+			->ext( 'Bucket' )
+			->conf( 'wgBucketDBuser', $dbUsername )
+			->conf( 'wgBucketDBpassword', $dbPassword );
 	}
 
 	public function CategoryTree(): self {
