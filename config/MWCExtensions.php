@@ -714,6 +714,10 @@ trait MWCExtensions {
 		return $this->ext( 'UserVerification' );
 	}
 
+	public function Video(): self {
+		return $this->ext( 'Video' );
+	}
+
 	public function VisualEditor(): self {
 		return $this->ext( 'VisualEditor' );
 	}
