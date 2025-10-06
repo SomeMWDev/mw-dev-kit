@@ -5,10 +5,10 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ./core:/var/www/html/w:cached
-      - ./config:/srv/mediawiki-config:cached
-      - ./extensions:/var/www/html/w/extensions
-      - ./skins:/var/www/html/w/skins
+      - "./core:${MW_INSTALL_PATH}:cached"
+      - "./config:/srv/mediawiki-config:cached"
+      - "./extensions:${MW_INSTALL_PATH}/extensions"
+      - "./skins:${MW_INSTALL_PATH}/skins"
     env_file: config/.env
     networks: [ mw ]
   mediawiki-web:
@@ -17,20 +17,20 @@ services:
     ports:
       - "${MW_DOCKER_PORT:-8080}:8080"
     volumes:
-      - ./core:/var/www/html/w:cached
-      - ./config:/srv/mediawiki-config:cached
-      - ./extensions:/var/www/html/w/extensions
-      - ./skins:/var/www/html/w/skins
+      - "./core:${MW_INSTALL_PATH}:cached"
+      - "./config:/srv/mediawiki-config:cached"
+      - "./extensions:${MW_INSTALL_PATH}/extensions"
+      - "./skins:${MW_INSTALL_PATH}/skins"
     env_file: config/.env
     networks: [ mw ]
   mediawiki-jobrunner:
     image: docker-registry.wikimedia.org/dev/bookworm-php83-jobrunner:1.0.0
     user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
     volumes:
-      - ./core:/var/www/html/w:cached
-      - ./config:/srv/mediawiki-config:cached
-      - ./extensions:/var/www/html/w/extensions
-      - ./skins:/var/www/html/w/skins
+      - "./core:${MW_INSTALL_PATH}:cached"
+      - "./config:/srv/mediawiki-config:cached"
+      - "./extensions:${MW_INSTALL_PATH}/extensions"
+      - "./skins:${MW_INSTALL_PATH}/skins"
     env_file: config/.env
     networks: [ mw ]
   elasticsearch:
