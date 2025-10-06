@@ -467,6 +467,10 @@ trait MWCExtensions {
 			->NukeDPL();
 	}
 
+	public function OAuth(): self {
+		return $this->ext( 'OAuth' );
+	}
+
 	public function OreDict(): self {
 		return $this
 			->ext( 'OreDict' )
@@ -726,8 +730,8 @@ trait MWCExtensions {
 		return $this->ext( 'VoteNY' );
 	}
 
-	public function wikihiero(): self {
-		return $this->ext( 'wikihiero' );
+	public function WatchAnalytics(): self {
+		return $this->ext( 'WatchAnalytics' );
 	}
 
 	public function WikibaseClient(): self {
@@ -755,6 +759,10 @@ trait MWCExtensions {
 				'siteLinkGroups' => [ 'mywikigroup' ],
 				'siteGlobalID' => 'en',
 			] );
+	}
+
+	public function wikihiero(): self {
+		return $this->ext( 'wikihiero' );
 	}
 
 	public function WikimediaMessages(): self {
