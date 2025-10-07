@@ -793,8 +793,17 @@ trait MWCExtensions {
 		return $this->ext( 'WikiForum' );
 	}
 
-	public function WikiLambda(): self {
-		return $this->ext( 'WikiLambda' );
+	public function WikiLambda( ?string $orchestratorUrl = null  ): self {
+		$composeProjectName = $orchestratorUrl !== null ? '' : $this->env( 'DOCKER_COMPOSE_PROJECT_NAME' );
+		/** @noinspection HttpUrlsUsage communication between docker containers */
+		return $this
+			// VE is optional but quite useful
+			->VisualEditor()
+			->ext( 'WikiLambda' )
+			->conf( 'wgWikiLambdaOrchestratorLocation', $orchestratorUrl ??
+				"http://$composeProjectName-function-orchestrator-1:6254/1/v1/evaluate" )
+			->conf( 'wgWikiLambdaEnableRepoMode', true )
+			->conf( 'wgWikiLambdaEnableClientMode', true );
 	}
 
 	public function WikiLove(): self {
