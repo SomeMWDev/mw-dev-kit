@@ -504,6 +504,10 @@ trait MWCExtensions {
 		return $this->ext( 'ParserFunctions' );
 	}
 
+	public function ParserPower(): self {
+		return $this->ext( 'ParserPower' );
+	}
+
 	public function Poem(): self {
 		return $this->ext( 'Poem' );
 	}
@@ -826,6 +830,12 @@ trait MWCExtensions {
 
 	public function ExtJSBase(): self {
 		return $this->ext( 'ExtJSBase' );
+	}
+
+	public function NumberHeadings(): self {
+		return $this
+			->ext( 'NumberHeadings' )
+			->conf( 'wgNumberHeadingsEnable', true );
 	}
 
 	public function OOJSPlus(): self {
