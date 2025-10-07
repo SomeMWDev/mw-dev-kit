@@ -793,7 +793,7 @@ trait MWCExtensions {
 		return $this->ext( 'WikiForum' );
 	}
 
-	public function WikiLambda( ?string $orchestratorUrl = null  ): self {
+	public function WikiLambda( ?string $orchestratorUrl = null ): self {
 		$composeProjectName = $orchestratorUrl !== null ? '' : $this->env( 'DOCKER_COMPOSE_PROJECT_NAME' );
 		/** @noinspection HttpUrlsUsage communication between docker containers */
 		return $this
