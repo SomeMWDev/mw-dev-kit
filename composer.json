@@ -16,7 +16,7 @@
     },
 	"scripts": {
 		"test": [
-			"parallel-lint . --exclude vendor --exclude node_modules",
+			"parallel-lint . --exclude core --exclude skins --exclude extensions --exclude services --exclude dumps --exclude vendor --exclude LocalSettings.php",
 			"@phpcs",
 			"minus-x check ."
 		],
@@ -25,7 +25,7 @@
 			"phpcbf"
 		],
 		"phan": "phan -d . --long-progress-bar",
-		"phpcs": "phpcs -sp --cache"
+		"phpcs": "phpcs -sp --cache --ignore=./core/*,./skins/*,./extensions/*,./services/*,./dumps/*,./vendor/*,LocalSettings.php"
 	},
     "config": {
         "allow-plugins": {
