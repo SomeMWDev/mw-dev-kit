@@ -27,6 +27,10 @@ trait MWCUtils {
 		return $this->getConf( 'wgExtensionDirectory' ) . "/$extensionName/$file";
 	}
 
+	public function coreFilePath( string $path ): string {
+		return $this->getConf( 'IP' ) . "/$path";
+	}
+
 	public function polyfillClassAliases(): self {
 		$removedAliases = [
 			// MW 1.44 (https://www.mediawiki.org/wiki/Release_notes/1.44#Breaking_changes_in_1.44)

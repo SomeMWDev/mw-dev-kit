@@ -31,6 +31,7 @@ class MediaWikiConfig {
 	use MWCSkins;
 	use MWCUtils;
 	use MWCMocks;
+	use MWCServices;
 	use MWCPrivate;
 
 	private static ?MediaWikiConfig $instance = null;

@@ -9,6 +9,7 @@ services:
       - "./config:/srv/mediawiki-config:cached"
       - "./extensions:${MW_INSTALL_PATH}/extensions"
       - "./skins:${MW_INSTALL_PATH}/skins"
+      - "./services:${MW_INSTALL_PATH}/services"
     env_file: config/.env
     networks: [ mw ]
   mediawiki-web:
@@ -21,6 +22,7 @@ services:
       - "./config:/srv/mediawiki-config:cached"
       - "./extensions:${MW_INSTALL_PATH}/extensions"
       - "./skins:${MW_INSTALL_PATH}/skins"
+      - "./services:${MW_INSTALL_PATH}/services"
     env_file: config/.env
     networks: [ mw ]
   mediawiki-jobrunner:
@@ -31,6 +33,7 @@ services:
       - "./config:/srv/mediawiki-config:cached"
       - "./extensions:${MW_INSTALL_PATH}/extensions"
       - "./skins:${MW_INSTALL_PATH}/skins"
+      - "./services:${MW_INSTALL_PATH}/services"
     env_file: config/.env
     networks: [ mw ]
   elasticsearch:
