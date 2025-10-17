@@ -24,12 +24,17 @@ use AutoLoader;
 
 trait MWCServices {
 
-	// https://www.mediawiki.org/wiki/Parsoid#Linking_a_developer_checkout_of_Parsoid
+	/**
+	 * @param string $installDirectory
+	 * @param array<string, string> $additionalVirtualRestConfig
+	 * @return MediaWikiConfig|MWCServices
+	 * @see https://www.mediawiki.org/wiki/Parsoid#Linking_a_developer_checkout_of_Parsoid
+	 */
 	public function useLocalParsoid(
-		$installDirectory = 'services/parsoid',
-		$additionalVirtualRestConfig = []
+		string $installDirectory = 'services/parsoid',
+		array $additionalVirtualRestConfig = []
 	): self {
-		$interceptParsoidLoading = function ( $className ) {
+		$interceptParsoidLoading = static function ( $className ) {
 			// Only intercept Parsoid namespace classes
 			if ( preg_match( '/(MW|Wikimedia\\\\)Parsoid\\\\/', $className ) ) {
 				$fileName = Autoloader::find( $className );
