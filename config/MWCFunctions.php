@@ -54,7 +54,7 @@ trait MWCFunctions {
 		wfLoadSkin( $name );
 
 		if ( $default ) {
-			$this->conf( 'wgDefaultSkin', $symbolicName ?? $name );
+			$this->defaultSkin( $symbolicName ?? $name );
 		}
 
 		return $this;

@@ -41,6 +41,10 @@ trait MWCConfig {
 		return $this->conf( 'wgLanguageCode', $code );
 	}
 
+	public function defaultSkin( string $symbolicName ): self {
+		return $this->conf( 'wgDefaultSkin', $symbolicName );
+	}
+
 	public function disableSQLStrictMode(): self {
 		return $this->conf( 'wgSQLMode', '' );
 	}
