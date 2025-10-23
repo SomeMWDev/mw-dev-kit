@@ -419,6 +419,10 @@ trait MWCExtensions {
 			->grantPermission( 'sysop', 'masseditregex' );
 	}
 
+	public function Mermaid(): self {
+		return $this->ext( 'Mermaid' );
+	}
+
 	public function MobileFrontend(): self {
 		return $this->ext( 'MobileFrontend' );
 	}
@@ -449,6 +453,10 @@ trait MWCExtensions {
 
 	public function MWDevHelper(): self {
 		return $this->ext( 'MWDevHelper' );
+	}
+
+	public function NamespacePaths(): self {
+		return $this->ext( 'NamespacePaths' );
 	}
 
 	public function Network(): self {
