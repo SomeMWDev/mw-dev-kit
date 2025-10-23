@@ -74,6 +74,10 @@ trait MWCExtensions {
 		return $this->ext( 'Analytics' );
 	}
 
+	public function ApprovedRevs(): self {
+		return $this->ext( 'ApprovedRevs' );
+	}
+
 	public function ArticleFeedbackv5(): self {
 		return $this->ext( 'ArticleFeedbackv5' );
 	}
@@ -668,6 +672,10 @@ trait MWCExtensions {
 
 	public function TableProgressTracking(): self {
 		return $this->ext( 'TableProgressTracking' );
+	}
+
+	public function Tabs(): self {
+		return $this->ext( 'Tabs' );
 	}
 
 	public function TemplateData(): self {
