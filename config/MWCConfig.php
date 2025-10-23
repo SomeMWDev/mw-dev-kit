@@ -63,6 +63,18 @@ trait MWCConfig {
 		return $this->conf( 'wgDebugToolbar', true );
 	}
 
+	public function enableDjvuRendering(): self {
+		// requires mwutil bash --root 'apt update && apt install djvulibre-bin netpbm'
+		// https://www.mediawiki.org/wiki/Manual:How_to_use_DjVu_with_MediaWiki
+		return $this
+			->allowFileExtensions( 'djvu' )
+			->conf( 'wgDjvuDump', 'djvudump' )
+			->conf( 'wgDjvuRenderer', 'ddjvu' )
+			->conf( 'wgDjvuTxt', 'djvutxt' )
+			->conf( 'wgDjvuPostProcessor', 'pnmtojpeg' )
+			->conf( 'wgDjvuOutputExtension', 'jpg' );
+	}
+
 	public function enableExceptionListener(): self {
 		return $this
 			->MWDevHelper()
