@@ -46,9 +46,6 @@ services:
     environment:
       - discovery.type=single-node
     networks: [ mw ]
-    ports:
-      - "${ELASTICSEARCH_HTTP_PORT:-9200}:9200"
-      - "${ELASTICSEARCH_TCP_PORT:-9300}:9300"
     profiles: [ "elasticsearch" ]
   mariadb:
     image: mariadb:latest
@@ -60,7 +57,6 @@ services:
       - MARIADB_PASSWORD=${MWC_DB_PASSWORD}
       - MARIADB_DATABASE=${MWC_DB_DATABASE}
     networks: [ mw ]
-    ports: [ "${MARIADB_PORT:-3306}:3306" ]
     profiles: [ "mariadb" ]
   mysql:
     image: mysql:latest
@@ -71,9 +67,7 @@ services:
       - MYSQL_USER=${MWC_DB_USER}
       - MYSQL_PASSWORD=${MWC_DB_PASSWORD}
       - MYSQL_DATABASE=${MWC_DB_DATABASE}
-    networks:
-      - mw
-    ports: [ "${MYSQL_PORT:-3307}:3306" ]
+    networks: [ mw ]
     profiles: [ "mysql" ]
   function-orchestrator:
     image: docker-registry.wikimedia.org/repos/abstract-wiki/wikifunctions/function-orchestrator:latest
@@ -82,8 +76,6 @@ services:
     # image: local-orchestrator:latest
     networks: [ mw ]
     profiles: [ "wikifunctions" ]
-    #ports:
-    #  - 6254:6254
     environment:
       WIKI_API_URL: "http://${COMPOSE_PROJECT_NAME}-mediawiki-web-1:8080/w/api.php"
       WIKIDATA_API_URL: "https://www.wikidata.org"
@@ -128,8 +120,6 @@ services:
     # image: local-evaluator-js:latest
     networks: [ mw ]
     profiles: [ "wikifunctions" ]
-    #ports:
-    #  - 6929:6927
   function-evaluator-python:
     image: docker-registry.wikimedia.org/repos/abstract-wiki/wikifunctions/function-evaluator/wasm-python3-all:latest
     # Un-comment this if you're using a local build, by running this in your check-out of the evaluator:
@@ -137,8 +127,6 @@ services:
     # image: local-evaluator-py:latest
     networks: [ mw ]
     profiles: [ "wikifunctions" ]
-    #ports:
-    #  - 6928:6927
 
 volumes:
   esdata:

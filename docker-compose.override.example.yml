@@ -1,0 +1,9 @@
+services:
+  elasticsearch:
+    ports:
+      - "${ELASTICSEARCH_HTTP_PORT:-9200}:9200"
+      - "${ELASTICSEARCH_TCP_PORT:-9300}:9300"
+  mariadb:
+    ports: [ "${MARIADB_PORT:-3306}:3306" ]
+  mysql:
+    ports: [ "${MYSQL_PORT:-3307}:3306" ]
