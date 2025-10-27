@@ -242,6 +242,10 @@ trait MWCExtensions {
 		return $this->ext( 'CountDownClock' );
 	}
 
+	public function CreateAPage(): self {
+		return $this->ext( 'CreateAPage' );
+	}
+
 	public function CreatePage(): self {
 		return $this->ext( 'CreatePage' );
 	}
@@ -704,6 +708,10 @@ trait MWCExtensions {
 			->OreDict()
 			->ext( 'Tilesheets' )
 			->grantPermissions( 'sysop', 'edittilesheets', 'importtilesheets', 'translatetiles' );
+	}
+
+	public function TimedMediaHandler(): self {
+		return $this->ext( 'TimedMediaHandler' );
 	}
 
 	public function TitleBlacklist(): self {
