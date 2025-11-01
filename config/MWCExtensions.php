@@ -510,6 +510,10 @@ trait MWCExtensions {
 		return $this->ext( 'PageImages' );
 	}
 
+	public function PageSync(): self {
+		return $this->ext( 'PageSync' );
+	}
+
 	public function PageTriage(): self {
 		return $this->ext( 'PageTriage' );
 	}
