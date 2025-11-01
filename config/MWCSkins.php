@@ -67,6 +67,10 @@ trait MWCSkins {
 		return $this->skin( 'MonoBook', $default, 'monobook' );
 	}
 
+	public function Nimbus( bool $default = false ): self {
+		return $this->skin( 'Nimbus', $default, 'nimbus' );
+	}
+
 	public function Nostalgia( bool $default = false ): self {
 		return $this->skin( 'Nostalgia', $default, 'nostalgia' );
 	}

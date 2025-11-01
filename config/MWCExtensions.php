@@ -409,6 +409,10 @@ trait MWCExtensions {
 		return $this->ext( 'LinkCards' );
 	}
 
+	public function LockAuthor(): self {
+		return $this->ext( 'LockAuthor' );
+	}
+
 	public function Lockdown(): self {
 		return $this->ext( 'Lockdown' );
 	}
