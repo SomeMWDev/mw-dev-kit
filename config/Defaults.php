@@ -136,6 +136,7 @@ require_once 'MWCSkins.php';
 require_once 'MWCUtils.php';
 require_once 'MWCMocks.php';
 require_once 'MWCServices.php';
+require_once 'MWCProfiling.php';
 
 // load MWCPrivate.php if available
 if ( file_exists( stream_resolve_include_path( 'MWCPrivate.php' ) ) ) {

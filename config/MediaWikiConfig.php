@@ -32,6 +32,7 @@ class MediaWikiConfig {
 	use MWCUtils;
 	use MWCMocks;
 	use MWCServices;
+	use MWCProfiling;
 	use MWCPrivate;
 
 	private static ?MediaWikiConfig $instance = null;
