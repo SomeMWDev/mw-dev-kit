@@ -770,31 +770,16 @@ trait MWCExtensions {
 		return $this->ext( 'WatchAnalytics' );
 	}
 
+	public function WikibaseRepository(): self {
+		return $this->ext( 'WikibaseRepository', $this->extensionFilePath( 'Wikibase', 'extension-repo.json' ) );
+	}
+
 	public function WikibaseClient(): self {
-		// TODO doesn't work for some reason
 		return $this
-			->ext( 'WikibaseClient', $this->extensionFilePath( 'Wikibase', 'extension-client.json' ) )
-			->conf( 'wgWBClientSettings', [
-				'repoUrl' => 'https://www.wikidata.org/',
-				'repoScriptPath' => '',
-				'repoArticlePath' => '/wiki/$1',
-				'entitySources' => [
-					'wikidatawiki' => [
-						'repoDatabase' => 'wikidatawiki',
-						'baseUri' => 'https://www.wikidata.org/entity',
-						'entityNamespaces' => [
-							'item' => 120,
-							'property' => 122,
-						],
-						'rdfNodeNamespacePrefix' => 'wd',
-						'rdfPredicateNamespacePrefix' => '',
-						'interwikiPrefix' => '',
-					],
-				],
-				'itemAndPropertySourceName' => 'wikidatawiki',
-				'siteLinkGroups' => [ 'mywikigroup' ],
-				'siteGlobalID' => 'en',
-			] );
+			// load repo - easier to test locally this way (see change message at
+			// https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Wikibase/+/933906)
+			->WikibaseRepository()
+			->ext( 'WikibaseClient', $this->extensionFilePath( 'Wikibase', 'extension-client.json' ) );
 	}
 
 	public function wikihiero(): self {
