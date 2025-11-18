@@ -528,6 +528,17 @@ trait MWCExtensions {
 		return $this->ext( 'ParserFunctions' );
 	}
 
+	public function ParserMigration(
+		bool $wikiWideParsoid = false
+	): self {
+		if ( $wikiWideParsoid ) {
+			$this
+				->conf( 'wgParserMigrationEnableParsoidArticlePages', true )
+				->conf( 'wgParserMigrationEnableParsoidDiscussionTools', true );
+		}
+		return $this->ext( 'ParserMigration' );
+	}
+
 	public function ParserPower(): self {
 		return $this->ext( 'ParserPower' );
 	}
