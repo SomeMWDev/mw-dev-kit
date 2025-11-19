@@ -18,7 +18,7 @@ MediaWikiConfig::getInstance()->enableTraceLogging();
 Then run the following commands:
 
 ```shell
-docker compose --env-file config/.env -p main build
+docker compose --env-file config/.env -p main build mediawiki
 mwutil recreate
 mwutil profiling watch
 ```
