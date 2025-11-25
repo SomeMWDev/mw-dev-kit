@@ -100,7 +100,7 @@ trait MWCExtensions {
 		return $this->ext( 'Bootstrap' );
 	}
 
-	public function Bucket( string $dbUsername, string $dbPassword ): self {
+	public function Bucket( string $dbUsername = 'bucket', string $dbPassword = 'bucket_password' ): self {
 		return $this
 			->ext( 'Bucket' )
 			->conf( 'wgBucketDBuser', $dbUsername )
@@ -168,7 +168,7 @@ trait MWCExtensions {
 		return $this->ext( 'Cite' );
 	}
 
-	public function CodeMirror( CodeMirrorVersion $version ): self {
+	public function CodeMirror( CodeMirrorVersion $version = CodeMirrorVersion::V6 ): self {
 		if ( $version === CodeMirrorVersion::V6 ) {
 			$this->conf( 'wgCodeMirrorV6', true );
 		}
