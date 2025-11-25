@@ -3,6 +3,7 @@
 namespace MediaWikiConfig;
 
 use LogicException;
+
 class MediaWikiConfig {
 	use MWCConfig;
 	use MWCExtensions;
