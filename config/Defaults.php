@@ -149,3 +149,5 @@ if ( file_exists( stream_resolve_include_path( 'MWCPrivate.php' ) ) ) {
 }
 
 require_once 'MediaWikiConfig.php';
+
+return MediaWikiConfig::getInstance();

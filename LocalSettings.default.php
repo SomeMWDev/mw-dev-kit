@@ -23,11 +23,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
 
-require_once '/srv/mediawiki-config/Defaults.php';
-
-use MediaWikiConfig\MediaWikiConfig;
+$c = require_once '/srv/mediawiki-config/Defaults.php';
 
 # Custom Configuration
 
-MediaWikiConfig::getInstance()
+$c
 	->enableDebugToolbar();
