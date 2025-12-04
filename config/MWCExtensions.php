@@ -297,6 +297,10 @@ trait MWCExtensions {
 		return $this->ext( 'EmbedVideo' );
 	}
 
+	public function EntitySchema(): self {
+		return $this->ext( 'EntitySchema' );
+	}
+
 	public function EventLogging(): self {
 		return $this->ext( 'EventLogging' );
 	}
