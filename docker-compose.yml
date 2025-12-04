@@ -10,6 +10,7 @@ services:
       - "./extensions:${MW_INSTALL_PATH}/extensions"
       - "./skins:${MW_INSTALL_PATH}/skins"
       - "./services:${MW_INSTALL_PATH}/services"
+      - "./tools:${MW_INSTALL_PATH}/tools"
     env_file: config/.env
     networks: [ mw ]
   mediawiki-web:
@@ -23,6 +24,7 @@ services:
       - "./extensions:${MW_INSTALL_PATH}/extensions"
       - "./skins:${MW_INSTALL_PATH}/skins"
       - "./services:${MW_INSTALL_PATH}/services"
+      - "./tools:${MW_INSTALL_PATH}/tools"
     env_file: config/.env
     networks: [ mw ]
   mediawiki-jobrunner:
@@ -34,6 +36,7 @@ services:
       - "./extensions:${MW_INSTALL_PATH}/extensions"
       - "./skins:${MW_INSTALL_PATH}/skins"
       - "./services:${MW_INSTALL_PATH}/services"
+      - "./tools:${MW_INSTALL_PATH}/tools"
     env_file: config/.env
     networks: [ mw ]
   elasticsearch:
