@@ -16,7 +16,7 @@
     },
 	"scripts": {
 		"test": [
-			"parallel-lint . --exclude core --exclude skins --exclude extensions --exclude services --exclude dumps --exclude vendor --exclude LocalSettings.php",
+			"parallel-lint . --exclude core --exclude skins --exclude extensions --exclude services --exclude dumps --exclude vendor --exclude LocalSettings.php --exclude config/MWCPrivate.php",
 			"@phpcs",
 			"minus-x check ."
 		],
@@ -25,7 +25,7 @@
 			"phpcbf"
 		],
 		"phan": "phan -d . --long-progress-bar",
-		"phpcs": "phpcs -sp --cache --ignore=./core/*,./skins/*,./extensions/*,./services/*,./dumps/*,./vendor/*,LocalSettings.php"
+		"phpcs": "phpcs -sp --cache --ignore=./core/*,./skins/*,./extensions/*,./services/*,./dumps/*,./vendor/*,LocalSettings.php,config/MWCPrivate.php"
 	},
     "config": {
         "allow-plugins": {
