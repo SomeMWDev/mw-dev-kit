@@ -766,8 +766,10 @@ trait MWCExtensions {
 		return $this->ext( 'WatchAnalytics' );
 	}
 
-	public function WikibaseRepository(): self {
-		return $this->ext( 'WikibaseRepository', $this->extensionFilePath( 'Wikibase', 'extension-repo.json' ) );
+	public function WikibaseCirrusSearch() {
+		return $this
+			->WikibaseClient()
+			->ext( 'WikibaseCirrusSearch' );
 	}
 
 	public function WikibaseClient(): self {
@@ -776,6 +778,14 @@ trait MWCExtensions {
 			// https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Wikibase/+/933906)
 			->WikibaseRepository()
 			->ext( 'WikibaseClient', $this->extensionFilePath( 'Wikibase', 'extension-client.json' ) );
+	}
+
+	public function WikibaseMediaInfo(): self {
+		return $this->ext( 'WikibaseMediaInfo' );
+	}
+
+	public function WikibaseRepository(): self {
+		return $this->ext( 'WikibaseRepository', $this->extensionFilePath( 'Wikibase', 'extension-repo.json' ) );
 	}
 
 	public function wikihiero(): self {
