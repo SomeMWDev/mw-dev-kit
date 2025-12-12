@@ -87,8 +87,4 @@ trait MWCConfig {
 		return $this->conf( 'wgMaxArticleSize', $kibibytes );
 	}
 
-	public function useInstantCommons(): self {
-		return $this->conf( 'wgUseInstantCommons', true );
-	}
-
 }

@@ -269,6 +269,10 @@ trait MWCExtensions {
 		return $this->ext( 'DiscussionTools' );
 	}
 
+	public function DocBookExport(): self {
+		return $this->ext( 'DocBookExport' );
+	}
+
 	public function DPLforum(): self {
 		return $this->ext( 'DPLforum' );
 	}
@@ -528,6 +532,10 @@ trait MWCExtensions {
 		return $this->ext( 'ParserPower' );
 	}
 
+	public function PDFEmbed(): self {
+		return $this->ext( 'PDFEmbed' );
+	}
+
 	public function Poem(): self {
 		return $this->ext( 'Poem' );
 	}
@@ -578,6 +586,10 @@ trait MWCExtensions {
 		};
 
 		return $this->ext( 'RelatedArticles' );
+	}
+
+	public function RemoveRedlinks(): self {
+		return $this->ext( 'RemoveRedlinks' );
 	}
 
 	public function ReplaceText(): self {
@@ -698,6 +710,10 @@ trait MWCExtensions {
 		return $this->ext( 'TemplateData' );
 	}
 
+	public function TemplateSandbox(): self {
+		return $this->ext( 'TemplateSandbox' );
+	}
+
 	public function TemplateStyles(): self {
 		return $this->ext( 'TemplateStyles' );
 	}
@@ -766,7 +782,7 @@ trait MWCExtensions {
 		return $this->ext( 'WatchAnalytics' );
 	}
 
-	public function WikibaseCirrusSearch() {
+	public function WikibaseCirrusSearch(): self {
 		return $this
 			->WikibaseClient()
 			->ext( 'WikibaseCirrusSearch' );
@@ -875,6 +891,10 @@ trait MWCExtensions {
 
 	public function OOJSPlus(): self {
 		return $this->ext( 'OOJSPlus' );
+	}
+
+	public function StandardDialogs(): self {
+		return $this->ext( 'StandardDialogs' );
 	}
 
 }
