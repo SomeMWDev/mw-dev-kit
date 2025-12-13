@@ -9,3 +9,5 @@ If you do not want to use GitHub for this, please contact the main maintainer of
 
 - thisisnotmyname275@gmail.com (E-Mail)
 - @abaddriverlol (Discord)
+
+Please note that this is a development environment and not intended for production.

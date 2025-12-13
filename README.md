@@ -13,14 +13,15 @@ powerful CLI tool (`mwutil`) to handle common development tasks efficiently.
 * Fully containerized, only Docker is required on the host machine
 * Fully integrated CLI tool ([mwutil](https://github.com/SomeMWDev/mwutil)) with autocompletion
     * Start/stop/recreate the containers
-    * Run phpcs, phan and phpunit
-    * Pull an extension or a skin with a simple command
+    * Run phpcs, phan, phpunit and parser tests
+    * Clone and install an extension or a skin with a simple command
     * Reset and reinstall the entire MW installation (SQL + ElasticSearch) in seconds just by running `mwutil reset`
     * Autocompletion for maintenance script names
-    * Create security patches with a single command
-    * Automatically set up gerrit repositories locally
-    * Create and import database dumps in seconds with a simple command
-    * Switch between MySQL and MariaDB
+    * Create security patches
+    * Automatically set up git-review for local repositories
+    * Create and import database dumps
+    * Switch between MySQL and MariaDB with a single command
+    * Easily access logs
 
 ### PHP
 
@@ -50,6 +51,14 @@ Requirements:
 * Enable using docker as non-root (https://askubuntu.com/a/477554)
 * Have `git-review` installed (Fedora: `sudo dnf install git-review`)
 
+### Using `mwutil init`
+
+1. Setup [mwutil](https://github.com/SomeMWDev/mwutil) if you haven't yet
+2. Run `mwutil init` in the folder you want your project folder to be placed in
+3. Follow the steps
+
+### Manually
+
 1. Clone this repo into a folder and cd into it.
 2. `cp ./config/.env.example ./config/.env`
 3. Edit `./config/.env` and customize the options. At least `MEDIAWIKI_PASSWORD`, `DB_ROOT_PASSWORD`, `CHANGE_ME`,
@@ -73,7 +82,7 @@ Requirements:
 
 PHPStorm configuration:
 
-![](https://i.imgur.com/RLFchAE.png)
+![](https://i.imgur.com/KpScbYq.png)
 
 ## Private settings
 
