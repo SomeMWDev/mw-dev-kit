@@ -313,6 +313,10 @@ trait MWCExtensions {
 		return $this->ext( 'ExternalData' );
 	}
 
+	public function FlaggedRevs(): self {
+		return $this->ext( 'FlaggedRevs' );
+	}
+
 	public function FlexDiagrams(): self {
 		return $this->ext( 'FlexDiagrams' );
 	}
