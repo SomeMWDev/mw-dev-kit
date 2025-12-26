@@ -203,7 +203,7 @@ trait MWCExtensions {
 			->ext( 'ContentTranslation' )
 			->modConf( 'wgContentTranslationSiteTemplates', static function ( &$c ) use ( $cxServer, $mwServer ) {
 				$c['cx'] = $cxServer;
-				// TODO don't hardcode article path etc
+				// TODO avoid hardcoding article path etc
 				$c['view'] = "$mwServer/wiki/$2";
 				$c['action'] = "$mwServer/w/index.php?title=$2";
 				$c['api'] = "$mwServer/w/api.php";
