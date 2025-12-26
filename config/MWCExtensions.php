@@ -356,6 +356,10 @@ trait MWCExtensions {
 		return $this->ext( 'HAWelcome' );
 	}
 
+	public function HidePrefix(): self {
+		return $this->ext( 'HidePrefix' );
+	}
+
 	public function ImageRating(): self {
 		return $this
 			->VoteNY()
