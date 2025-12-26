@@ -360,6 +360,10 @@ trait MWCExtensions {
 		return $this->ext( 'HidePrefix' );
 	}
 
+	public function ImageMapEdit(): self {
+		return $this->ext( 'ImageMapEdit' );
+	}
+
 	public function ImageRating(): self {
 		return $this
 			->VoteNY()
