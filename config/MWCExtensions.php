@@ -167,6 +167,10 @@ trait MWCExtensions {
 		return $this->ext( 'Commentbox' );
 	}
 
+	public function Comments(): self {
+		return $this->ext( 'Comments' );
+	}
+
 	public function CommentStreams( array|int $allowedNamespaces = -1 ): self {
 		return $this
 			->ext( 'CommentStreams' )
