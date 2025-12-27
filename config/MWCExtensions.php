@@ -762,6 +762,10 @@ trait MWCExtensions {
 		return $this->ext( 'Translate' );
 	}
 
+	public function TreeAndMenu(): self {
+		return $this->ext( 'TreeAndMenu' );
+	}
+
 	public function UniversalLanguageSelector(): self {
 		return $this->ext( 'UniversalLanguageSelector' );
 	}
