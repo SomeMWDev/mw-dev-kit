@@ -81,6 +81,10 @@ trait MWCExtensions {
 		return $this->ext( 'Bootstrap' );
 	}
 
+	public function BreadCrumbs2(): self {
+		return $this->ext( 'BreadCrumbs2' );
+	}
+
 	public function Bucket( string $dbUsername = 'bucket', string $dbPassword = 'bucket_password' ): self {
 		return $this
 			->ext( 'Bucket' )
