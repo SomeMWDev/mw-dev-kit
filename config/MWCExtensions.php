@@ -132,14 +132,14 @@ trait MWCExtensions {
 		return $this->ext( 'ChessBrowser' );
 	}
 
-	public function CirrusSearch(): self {
+	public function CirrusSearch( bool $useOpenSearch ): self {
 		// note: this sets the default skin to vector 2022
 		require_once $this->extensionFilePath( 'CirrusSearch', 'tests/jenkins/FullyFeaturedConfig.php' );
 		if ( !defined( 'MW_PHPUNIT_TEST' ) ) {
 			$this->conf( 'wgCirrusSearchServers', [
 				[
 					'transport' => \CirrusSearch\Elastica\DeprecationLoggedHttp::class,
-					"host" => "elasticsearch",
+					"host" => $useOpenSearch ? "opensearch" : "elasticsearch",
 				],
 			] );
 		}

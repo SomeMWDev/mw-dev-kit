@@ -50,6 +50,14 @@ services:
       - discovery.type=single-node
     networks: [ mw ]
     profiles: [ "elasticsearch" ]
+  opensearch:
+    image: docker-registry.wikimedia.org/repos/search-platform/cirrussearch-opensearch-image:v1.3.20-12
+    volumes:
+      - osdata:/usr/share/opensearch/data
+    environment:
+      - discovery.type=single-node
+    networks: [ mw ]
+    profiles: [ "opensearch" ]
   mariadb:
     image: mariadb:latest
     volumes:
@@ -133,6 +141,8 @@ services:
 
 volumes:
   esdata:
+    driver: local
+  osdata:
     driver: local
   mariadbdata:
     driver: local
