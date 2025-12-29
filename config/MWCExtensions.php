@@ -138,7 +138,7 @@ trait MWCExtensions {
 		if ( !defined( 'MW_PHPUNIT_TEST' ) ) {
 			$this->conf( 'wgCirrusSearchServers', [
 				[
-					'transport' => CirrusSearch\Elastica\DeprecationLoggedHttp::class,
+					'transport' => \CirrusSearch\Elastica\DeprecationLoggedHttp::class,
 					"host" => "elasticsearch",
 				],
 			] );
