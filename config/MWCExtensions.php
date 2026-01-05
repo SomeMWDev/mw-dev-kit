@@ -750,6 +750,10 @@ trait MWCExtensions {
 		return $this->ext( 'TextExtracts' );
 	}
 
+	public function Thanks(): self {
+		return $this->ext( 'Thanks' );
+	}
+
 	public function Tilesheets(): self {
 		return $this
 			// requirement not specified in extension.json
