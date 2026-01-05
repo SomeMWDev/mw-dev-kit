@@ -343,6 +343,10 @@ trait MWCExtensions {
 			->conf( 'wgGlobalUserPageAPIUrl', $apiUrl );
 	}
 
+	public function GlobalUserrights(): self {
+		return $this->ext( 'GlobalUserrights' );
+	}
+
 	public function GrowthExperiments(): self {
 		// https://www.mediawiki.org/wiki/Extension:GrowthExperiments/developer_setup
 		return $this
