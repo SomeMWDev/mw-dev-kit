@@ -2,6 +2,9 @@
 
 namespace MediaWikiConfig;
 
+use MediaWiki\Output\Hook\BeforePageDisplayHook;
+use MediaWiki\Output\OutputPage;
+
 trait MWCFunctions {
 
 	/**
@@ -160,6 +163,21 @@ trait MWCFunctions {
 			$wgMwcEnv = $wgMwcEnv = parse_ini_file( '/srv/mediawiki-config/.env' );
 		}
 		return $wgMwcEnv[$key];
+	}
+
+	public function alwaysLoadModules( array $modules ): self {
+		return $this->autoHook( new class( $modules ) implements BeforePageDisplayHook {
+			public function __construct(
+				private readonly array $modules
+			) {
+			}
+
+			/** @inheritDoc */
+			public function onBeforePageDisplay( $out, $skin ): void {
+				/** @var OutputPage $out */
+				$out->addModules( $this->modules );
+			}
+		} );
 	}
 
 }
