@@ -2,6 +2,7 @@
 
 namespace MediaWikiConfig;
 
+use MediaWiki\Json\FormatJson;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
 
@@ -51,12 +52,7 @@ trait MWCFunctions {
 		if ( $cachedDependencies === false ) {
 			$extensionJson ??= $this->extensionFilePath( $name, 'extension.json' );
 			$extJson = file_get_contents( $extensionJson );
-			if ( class_exists( 'MediaWiki\\Json\\FormatJson' ) ) {
-				// MW 1.43+
-				$extData = \MediaWiki\Json\FormatJson::decode( $extJson );
-			} else {
-				$extData = \FormatJson::decode( $extJson );
-			}
+			$extData = FormatJson::decode( $extJson );
 			if ( !isset( $extData->requires ) ) {
 				return [];
 			}
