@@ -861,8 +861,6 @@ trait MWCExtensions {
 	}
 
 	public function WikiEditor(): self {
-		// TODO remove comment once the fix for T411741 is shipped
-		// phpcs:ignore MediaWiki.Usage.AssignmentInReturn.AssignmentInReturn
 		return $this
 			->ext( 'WikiEditor' )
 			->modConf( 'wgHiddenPrefs', static fn ( &$c ) => $c[] = 'usebetatoolbar' )
