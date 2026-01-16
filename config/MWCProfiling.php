@@ -29,6 +29,7 @@ trait MWCProfiling {
 			$excimer = new \ExcimerProfiler();
 			// set the period to 1ms
 			$excimer->setPeriod( $period / 1000 );
+			/** @noinspection PhpUndefinedConstantInspection Not found if excimer is not available on the host */
 			$excimer->setEventType( EXCIMER_REAL );
 			$excimer->start();
 			register_shutdown_function( static function () use ( $excimer, $separateFiles ) {

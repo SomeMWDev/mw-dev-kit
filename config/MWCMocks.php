@@ -12,7 +12,7 @@ use GrowthExperiments\NewcomerTasks\TaskType\LinkRecommendationTaskType;
 use GrowthExperiments\NewcomerTasks\TaskType\TaskType;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
-use TitleValue;
+use MediaWiki\Title\TitleValue;
 
 trait MWCMocks {
 
