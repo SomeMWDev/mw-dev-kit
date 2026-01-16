@@ -636,7 +636,27 @@ trait MWCExtensions {
 		return $this->ext( 'Screenplay' );
 	}
 
-	public function Scribunto(): self {
+	public const SCRIBUNTO_ENGINE_LUASTANDALONE = 1;
+	public const SCRIBUNTO_ENGINE_LUASANDBOX = 2;
+
+	public function Scribunto(
+		int $engine = self::SCRIBUNTO_ENGINE_LUASTANDALONE,
+		array $engineConfOverrides = []
+	): self {
+		switch ( $engine ) {
+			case self::SCRIBUNTO_ENGINE_LUASTANDALONE:
+				$this->conf( 'wgScribuntoDefaultEngine', 'luastandalone' );
+				break;
+			case self::SCRIBUNTO_ENGINE_LUASANDBOX:
+				$this->conf( 'wgScribuntoDefaultEngine', 'luasandbox' );
+				break;
+		}
+		$defaultEngine = $this->getConf( 'wgScribuntoDefaultEngine' );
+		$this->modConf( 'wgScribuntoEngineConf', static function ( &$c ) use ( $defaultEngine, $engineConfOverrides ) {
+			foreach ( $engineConfOverrides as $key => $val ) {
+				$c[$defaultEngine][$key] = $val;
+			}
+		} );
 		return $this->ext( 'Scribunto' );
 	}
 
@@ -745,6 +765,7 @@ trait MWCExtensions {
 	public function TemplateStylesExtender(): self {
 		return $this->ext( 'TemplateStylesExtender' );
 	}
+
 
 	public function TextExtracts(): self {
 		return $this->ext( 'TextExtracts' );
