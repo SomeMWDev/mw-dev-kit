@@ -766,7 +766,6 @@ trait MWCExtensions {
 		return $this->ext( 'TemplateStylesExtender' );
 	}
 
-
 	public function TextExtracts(): self {
 		return $this->ext( 'TextExtracts' );
 	}
