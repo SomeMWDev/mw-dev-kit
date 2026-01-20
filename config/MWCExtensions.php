@@ -880,6 +880,10 @@ trait MWCExtensions {
 			->conf( 'wgWikistoriesRestDomain', 'wikipedia.org' );
 	}
 
+	public function WikiCategoryTagCloud(): self {
+		return $this->ext( 'WikiCategoryTagCloud' );
+	}
+
 	public function WikiEditor(): self {
 		return $this
 			->ext( 'WikiEditor' )
