@@ -488,6 +488,10 @@ trait MWCExtensions {
 		return $this->ext( 'Newsletter' );
 	}
 
+	public function NoTitle(): self {
+		return $this->ext( 'NoTitle' );
+	}
+
 	public function Nuke(): self {
 		return $this->ext( 'Nuke' );
 	}

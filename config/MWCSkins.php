@@ -69,6 +69,10 @@ trait MWCSkins {
 		return $this->skin( 'Swift', $default, 'swift' );
 	}
 
+	public function Timeless( bool $default = false ): self {
+		return $this->skin( 'Timeless', $default, 'timeless' );
+	}
+
 	public function Tweeki( bool $default = false ): self {
 		return $this->skin( 'Tweeki', $default, 'tweeki' );
 	}
