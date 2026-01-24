@@ -33,6 +33,10 @@ trait MWCSkins {
 		return $this->skin( 'Lakeus', $default, 'lakeus' );
 	}
 
+	public function Metrolook( bool $default = false ): self {
+		return $this->skin( 'Metrolook', $default, 'metrolook' );
+	}
+
 	public function MinervaNeue( bool $default = false ): self {
 		return $this->skin( 'MinervaNeue', $default, 'minerva' );
 	}
