@@ -12,8 +12,8 @@ trait MWCFunctions {
 	 * Automatically loads an extension and tries to load its dependencies as well.
 	 */
 	public function ext( string $name, ?string $extensionJson = null ): self {
-		if ( in_array( $name, $this->loadedExtensions, true ) ) {
-			wfDebugLog( 'mw-config/ConfigLoader', "Skipping duplicated registration of extension $name." );
+		if ( array_key_exists( $name, $this->loadedExtensions ) ) {
+			// Duplicate
 			return $this;
 		}
 
@@ -30,8 +30,8 @@ trait MWCFunctions {
 	}
 
 	public function skin( string $name, bool $default = false, ?string $symbolicName = null ): self {
-		if ( in_array( $name, $this->loadedSkins, true ) ) {
-			wfDebugLog( 'mw-config/ConfigLoader', "Skipping duplicated registration of skin $name." );
+		if ( array_key_exists( $name, $this->loadedSkins ) ) {
+			// Duplicate
 			return $this;
 		}
 
