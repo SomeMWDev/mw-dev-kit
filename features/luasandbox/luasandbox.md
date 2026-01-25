@@ -1,4 +1,4 @@
-# Profiling
+# LuaSandbox
 
 docker-compose.override.yml:
 
@@ -6,13 +6,13 @@ docker-compose.override.yml:
 services:
   mediawiki:
     build:
-      dockerfile: features/profiling/profiling.Dockerfile
+      dockerfile: features/luasandbox/luasandbox.Dockerfile
       context: .
 ```
 
 LocalSettings.php:
 ```php
-MediaWikiConfig::getInstance()->enableTraceLogging();
+$c->Scribunto( $c::SCRIBUNTO_ENGINE_LUASANDBOX );
 ```
 
 Then run the following commands:
@@ -20,5 +20,4 @@ Then run the following commands:
 ```shell
 docker compose --env-file config/.env -p main build mediawiki
 mwutil recreate
-mwutil profiling watch
 ```
