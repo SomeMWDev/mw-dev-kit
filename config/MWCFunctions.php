@@ -139,13 +139,11 @@ trait MWCFunctions {
 		} );
 	}
 
-	public function env( string $key ): string {
+	public function env( string $key, string $default = '' ): string {
 		global $wgMwcEnv;
-		if ( $wgMwcEnv === null ) {
-			// integration test fix
-			$wgMwcEnv = $wgMwcEnv = parse_ini_file( '/srv/mediawiki-config/.env' );
-		}
-		return $wgMwcEnv[$key];
+		// integration test fix
+		$wgMwcEnv ??= parse_ini_file( '/srv/mediawiki-config/.env' );
+		return $wgMwcEnv[$key] ?? $default;
 	}
 
 	public function alwaysLoadModules( array $modules ): self {
