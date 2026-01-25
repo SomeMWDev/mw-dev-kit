@@ -75,20 +75,14 @@ trait MWCFunctions {
 		return $this->conf( $to, $this->getConf( $from ) );
 	}
 
-	public function getConf( string $name ): mixed {
-		return $GLOBALS[$name];
+	public function getConf( string $name, mixed $default = null ): mixed {
+		return $GLOBALS[$name] ?? $default;
 	}
 
 	public function modConf( string $name, callable $modify, mixed $defaultIfNotSet = [] ): self {
-		if ( array_key_exists( $name, $GLOBALS ) ) {
-			$val = $GLOBALS[$name];
-		} else {
-			$val = $defaultIfNotSet;
-		}
+		$val = $this->getConf( $name, $defaultIfNotSet );
 		$modify( $val );
-		$GLOBALS[$name] = $val;
-
-		return $this;
+		return $this->conf( $name, $val );
 	}
 
 	/**
