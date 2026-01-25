@@ -29,11 +29,7 @@ trait MWCExtensions {
 	];
 
 	public function loadExtensionOrSkin( string $functionName ): self {
-		if ( isset( $this->extensionFunctionMappings[$functionName] ) ) {
-			$fName = $this->extensionFunctionMappings[$functionName];
-		}
-		$fName ??= $functionName;
-
+		$fName = $this->extensionFunctionMappings[$functionName] ?? $functionName;
 		return $this->$fName();
 	}
 
