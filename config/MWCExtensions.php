@@ -696,6 +696,10 @@ trait MWCExtensions {
 		return $this->ext( 'SemanticScribunto' );
 	}
 
+	public function ShortDescription(): self {
+		return $this->ext( 'ShortDescription' );
+	}
+
 	public function SimpleBlogPage(): self {
 		return $this->ext( 'SimpleBlogPage' );
 	}
