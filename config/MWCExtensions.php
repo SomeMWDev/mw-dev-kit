@@ -352,7 +352,7 @@ trait MWCExtensions {
 		return $this
 			->Vector()
 			->MinervaNeue()
-			->CirrusSearch()
+			->CirrusSearch( true )
 			->Echo_()
 			->Elastica()
 			->PageViewInfo()
