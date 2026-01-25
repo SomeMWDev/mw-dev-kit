@@ -53,14 +53,7 @@ trait MWCFunctions {
 			$extensionJson ??= $this->extensionFilePath( $name, 'extension.json' );
 			$extJson = file_get_contents( $extensionJson );
 			$extData = FormatJson::decode( $extJson );
-			if ( !isset( $extData->requires ) ) {
-				return [];
-			}
-			$requires = $extData->requires;
-			if ( !isset( $requires->extensions ) ) {
-				return [];
-			}
-			$cachedDependencies = array_keys( (array)$requires->extensions );
+			$cachedDependencies = array_keys( (array)( $extData?->requires?->extensions ?? [] ) );
 			apcu_store( $key, $cachedDependencies );
 		}
 
