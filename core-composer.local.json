@@ -2,12 +2,28 @@
 	"extra": {
 		"merge-plugin": {
 			"include": [
-				"extensions/*/composer.json"
-			],
-			"exclude": [
-				"extensions/SemanticDrilldown/composer.json",
-				"extensions/SemanticMediaWiki/composer.json",
-				"extensions/SemanticScribunto/composer.json"
+				"extensions/AbuseFilter/composer.json",
+				"extensions/CheckUser/composer.json",
+				"extensions/CirrusSearch/composer.json",
+				"extensions/CognitiveProcessDesigner/composer.json",
+				"extensions/CSS/composer.json",
+				"extensions/Elastica/composer.json",
+				"extensions/EntitySchema/composer.json",
+				"extensions/Flow/composer.json",
+				"extensions/IPInfo/composer.json",
+				"extensions/OATHAuth/composer.json",
+				"extensions/OAuth/composer.json",
+				"extensions/OOJSPlus/composer.json",
+				"extensions/TemplateStyles/composer.json",
+				"extensions/SemanticScribunto/composer.json",
+				"extensions/TimedMediaHandler/composer.json",
+				"extensions/WebAuthn/composer.json",
+				"extensions/Wikibase/composer.json",
+				"extensions/WikibaseEdtf/composer.json",
+				"extensions/WikibaseMediaInfo/composer.json",
+				"extensions/WikibaseQualityConstraints/composer.json",
+				"extensions/WikiLambda/composer.json",
+				"skins/chameleon/composer.json"
 			]
 		}
 	}
