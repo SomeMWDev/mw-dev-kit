@@ -2,6 +2,8 @@
 
 namespace MediaWikiConfig;
 
+use MediaWiki\Config\SiteConfiguration;
+
 trait MWCConfig {
 
 	public function allowExternalImages(): self {
@@ -85,6 +87,39 @@ trait MWCConfig {
 	public function setMaxArticleSize( int $amount, int $unit ): self {
 		$kibibytes = $amount * pow( 1024, $unit );
 		return $this->conf( 'wgMaxArticleSize', $kibibytes );
+	}
+
+	public function setupFarm(
+		array $wikis,
+		array $settings,
+	): self {
+		// TODO make more customizable via options to this method
+		if ( defined( 'MW_DB' ) ) {
+			$wikiId = MW_DB;
+		} else {
+			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
+			if ( !array_key_exists( $subdomain, $wikis ) ) {
+				throw new \Exception( "Unknown wiki subdomain: $subdomain" );
+			} else {
+				$wikiId = $wikis[$subdomain];
+			}
+		}
+
+		$siteConfiguration = new SiteConfiguration();
+		$siteConfiguration->wikis = array_values( array_unique( $wikis ) );
+		$this
+			->conf( 'wgLocalDatabases', $siteConfiguration->wikis )
+			->conf( 'wgDBname', $wikiId );
+		$siteConfiguration->suffixes = [ 'wiki' ];
+		$siteConfiguration->settings = $settings;
+
+		foreach ( $siteConfiguration->getAll( $wikiId ) as $key => $value ) {
+			// TODO check if this works with appending values
+			$this->conf( $key, $value );
+		}
+
+		return $this
+			->conf( 'wgConf', $siteConfiguration );
 	}
 
 }
