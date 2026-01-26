@@ -89,17 +89,26 @@ trait MWCConfig {
 		return $this->conf( 'wgMaxArticleSize', $kibibytes );
 	}
 
+	// TODO move all of this to MWCFarm
 	public function setupFarm(
 		array $wikis,
 		array $settings,
 	): self {
+		// TODO hacky
+		$port = $this->env( 'MW_DOCKER_PORT' );
+		$serverVals = [];
+		foreach ( $wikis as $subdomain => $dbname ) {
+			$serverVals[$dbname] = "http://$subdomain.localhost:$port";
+		}
+		$settings['wgServer'] = $serverVals;
+
 		// TODO make more customizable via options to this method
 		if ( defined( 'MW_DB' ) ) {
 			$wikiId = MW_DB;
 		} else {
 			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
 			if ( !array_key_exists( $subdomain, $wikis ) ) {
-				throw new \Exception( "Unknown wiki subdomain: $subdomain" );
+				$this->showWikiMap( $wikis );
 			} else {
 				$wikiId = $wikis[$subdomain];
 			}
@@ -120,6 +129,12 @@ trait MWCConfig {
 
 		return $this
 			->conf( 'wgConf', $siteConfiguration );
+	}
+
+	public function showWikiMap( array $wikis ): never {
+		$this->conf( 'mwcWikis', $wikis );
+		require_once __DIR__ . '/farm/WikiMap.php';
+		die( 1 );
 	}
 
 }
