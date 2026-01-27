@@ -6,6 +6,7 @@
 				"extensions/CheckUser/composer.json",
 				"extensions/CirrusSearch/composer.json",
 				"extensions/CognitiveProcessDesigner/composer.json",
+				"extensions/CommentStreams/composer.json",
 				"extensions/CSS/composer.json",
 				"extensions/Elastica/composer.json",
 				"extensions/EntitySchema/composer.json",
