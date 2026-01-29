@@ -8,12 +8,13 @@ if ( MW_ENTRY_POINT !== 'cli' ) {
 	$wikiLinks = '';
 	// TODO bad
 	$port = getenv( 'MW_DOCKER_PORT' );
+	$path = parse_url( $_SERVER['REQUEST_URI'] ?? '|', PHP_URL_PATH ) ?? '';
 	foreach ( $mwcWikis as $subdomain => $dbName ) {
 		$link = Html::element(
 			'a',
 			[
 				// TODO un-hardcode
-				'href' => "http://$subdomain.localhost:$port/",
+				'href' => "http://$subdomain.localhost:$port$path",
 				'class' => 'button',
 			],
 			$dbName,
@@ -42,7 +43,7 @@ if ( MW_ENTRY_POINT !== 'cli' ) {
 				</main>
 				<footer>
 					<p>
-						Powered by mw-dev-kit (<a href="https://github.com/SomeMWDev/mw-dev-kit">GitHub</a>)
+						Powered by mw-dev-kit (<a href="https://github.com/SomeMWDev/mw-dev-kit" target="_blank">GitHub</a>)
 					</p>
 				</footer>
 			</body>

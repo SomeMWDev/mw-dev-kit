@@ -105,6 +105,9 @@ trait MWCConfig {
 		// TODO make more customizable via options to this method
 		if ( defined( 'MW_DB' ) ) {
 			$wikiId = MW_DB;
+		} elseif ( MW_ENTRY_POINT === 'cli' ) {
+			// TODO
+			$wikiId = 'mainwiki';
 		} else {
 			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
 			if ( !array_key_exists( $subdomain, $wikis ) ) {
@@ -133,7 +136,7 @@ trait MWCConfig {
 
 	public function showWikiMap( array $wikis ): never {
 		$this->conf( 'mwcWikis', $wikis );
-		require_once __DIR__ . '/farm/WikiMap.php';
+		require_once __DIR__ . '/farm/NotFound.php';
 		die( 1 );
 	}
 
