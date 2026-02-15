@@ -7,9 +7,15 @@ use MediaWikiConfig\MediaWikiConfig;
 
 class MWCFarm {
 
+	/**
+	 * @param array<string, string> $wikis
+	 * @param array $settings
+	 * @param string $defaultWiki The wiki that will be used for maintenance scripts by default
+	 */
 	public function __construct(
 		private readonly array $wikis,
 		private array $settings,
+		private readonly string $defaultWiki,
 	) {
 	}
 
@@ -21,12 +27,10 @@ class MWCFarm {
 		}
 		$this->settings['wgServer'] = $serverVals;
 
-		// TODO make more customizable via options to this method
 		if ( defined( 'MW_DB' ) ) {
 			$wikiId = MW_DB;
 		} elseif ( MW_ENTRY_POINT === 'cli' ) {
-			// TODO
-			$wikiId = 'mainwiki';
+			$wikiId = $this->defaultWiki;
 		} else {
 			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
 			if ( !array_key_exists( $subdomain, $this->wikis ) ) {
