@@ -45,6 +45,10 @@ trait MWCSkins {
 		return $this->skin( 'Mirage', $default, 'mirage' );
 	}
 
+	public function Modern( bool $default = false ): self {
+		return $this->skin( 'Modern', $default, 'modern' );
+	}
+
 	public function Monaco( bool $default = false ): self {
 		return $this->skin( 'Monaco', $default, 'monaco' );
 	}
