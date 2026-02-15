@@ -9,7 +9,7 @@ class MWCFarm {
 
 	public function __construct(
 		private readonly array $wikis,
-		private readonly array $settings,
+		private array $settings,
 	) {
 	}
 
@@ -19,7 +19,7 @@ class MWCFarm {
 		foreach ( $this->wikis as $subdomain => $dbname ) {
 			$serverVals[$dbname] = "http://$subdomain.localhost:$port";
 		}
-		$settings['wgServer'] = $serverVals;
+		$this->settings['wgServer'] = $serverVals;
 
 		// TODO remove
 		$mwc->conf( 'mwcWikis', $this->wikis );
@@ -45,7 +45,7 @@ class MWCFarm {
 			->conf( 'wgLocalDatabases', $siteConfiguration->wikis )
 			->conf( 'wgDBname', $wikiId );
 		$siteConfiguration->suffixes = [ 'wiki' ];
-		$siteConfiguration->settings = $settings;
+		$siteConfiguration->settings = $this->settings;
 
 		foreach ( $siteConfiguration->getAll( $wikiId ) as $key => $value ) {
 			$mwc->conf( $key, $value );
