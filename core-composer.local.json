@@ -10,6 +10,7 @@
 				"extensions/CSS/composer.json",
 				"extensions/Elastica/composer.json",
 				"extensions/EntitySchema/composer.json",
+				"extensions/EventLogging/composer.json",
 				"extensions/Flow/composer.json",
 				"extensions/IPInfo/composer.json",
 				"extensions/OATHAuth/composer.json",
