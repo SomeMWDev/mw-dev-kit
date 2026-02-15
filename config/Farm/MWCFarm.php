@@ -21,9 +21,6 @@ class MWCFarm {
 		}
 		$this->settings['wgServer'] = $serverVals;
 
-		// TODO remove
-		$mwc->conf( 'mwcWikis', $this->wikis );
-
 		// TODO make more customizable via options to this method
 		if ( defined( 'MW_DB' ) ) {
 			$wikiId = MW_DB;
