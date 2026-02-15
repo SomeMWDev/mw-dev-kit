@@ -2,7 +2,7 @@
 
 namespace MediaWikiConfig;
 
-use MediaWiki\Config\SiteConfiguration;
+use MediaWikiConfig\Farm\MWCFarm;
 
 trait MWCConfig {
 
@@ -89,55 +89,11 @@ trait MWCConfig {
 		return $this->conf( 'wgMaxArticleSize', $kibibytes );
 	}
 
-	// TODO move all of this to MWCFarm
-	public function setupFarm(
-		array $wikis,
-		array $settings,
-	): self {
-		// TODO hacky
-		$port = $this->env( 'MW_DOCKER_PORT' );
-		$serverVals = [];
-		foreach ( $wikis as $subdomain => $dbname ) {
-			$serverVals[$dbname] = "http://$subdomain.localhost:$port";
-		}
-		$settings['wgServer'] = $serverVals;
-
-		// TODO make more customizable via options to this method
-		if ( defined( 'MW_DB' ) ) {
-			$wikiId = MW_DB;
-		} elseif ( MW_ENTRY_POINT === 'cli' ) {
-			// TODO
-			$wikiId = 'mainwiki';
-		} else {
-			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
-			if ( !array_key_exists( $subdomain, $wikis ) ) {
-				$this->showWikiMap( $wikis );
-			} else {
-				$wikiId = $wikis[$subdomain];
-			}
-		}
-
-		$siteConfiguration = new SiteConfiguration();
-		$siteConfiguration->wikis = array_values( array_unique( $wikis ) );
-		$this
-			->conf( 'wgLocalDatabases', $siteConfiguration->wikis )
-			->conf( 'wgDBname', $wikiId );
-		$siteConfiguration->suffixes = [ 'wiki' ];
-		$siteConfiguration->settings = $settings;
-
-		foreach ( $siteConfiguration->getAll( $wikiId ) as $key => $value ) {
-			// TODO check if this works with appending values
-			$this->conf( $key, $value );
-		}
-
-		return $this
-			->conf( 'wgConf', $siteConfiguration );
-	}
-
-	public function showWikiMap( array $wikis ): never {
-		$this->conf( 'mwcWikis', $wikis );
-		require_once __DIR__ . '/farm/NotFound.php';
-		die( 1 );
+	public function setupFarm( MWCFarm $farm ): self {
+		global $mwcFarm;
+		$mwcFarm = $farm;
+		$farm->apply( $this );
+		return $this;
 	}
 
 }
