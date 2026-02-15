@@ -109,6 +109,7 @@ $wgDBpassword = $wgMwcEnv['MWC_DB_PASSWORD'];
 
 # Load other configuration
 
+require_once 'Farm/MWCFarm.php';
 require_once 'MWCConfig.php';
 require_once 'MWCExtensions.php';
 require_once 'MWCFunctions.php';

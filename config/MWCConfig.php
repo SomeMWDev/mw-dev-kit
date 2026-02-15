@@ -2,6 +2,8 @@
 
 namespace MediaWikiConfig;
 
+use MediaWikiConfig\Farm\MWCFarm;
+
 trait MWCConfig {
 
 	public function allowExternalImages(): self {
@@ -85,6 +87,13 @@ trait MWCConfig {
 	public function setMaxArticleSize( int $amount, int $unit ): self {
 		$kibibytes = $amount * pow( 1024, $unit );
 		return $this->conf( 'wgMaxArticleSize', $kibibytes );
+	}
+
+	public function setupFarm( MWCFarm $farm ): self {
+		global $wgMwcFarm;
+		$wgMwcFarm = $farm;
+		$farm->apply( $this );
+		return $this;
 	}
 
 }
