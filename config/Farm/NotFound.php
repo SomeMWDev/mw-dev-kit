@@ -3,15 +3,15 @@
 use MediaWiki\Html\Html;
 use MediaWikiConfig\Farm\MWCFarm;
 
-global $mwcFarm;
-/** @var MWCFarm $mwcFarm */
+global $wgMwcFarm;
+/** @var MWCFarm $wgMwcFarm */
 
 if ( MW_ENTRY_POINT !== 'cli' ) {
 	$wikiLinks = '';
 	// TODO bad
 	$port = getenv( 'MW_DOCKER_PORT' );
 	$path = parse_url( $_SERVER['REQUEST_URI'] ?? '|', PHP_URL_PATH ) ?? '';
-	foreach ( $mwcFarm->getWikis() as $subdomain => $dbName ) {
+	foreach ( $wgMwcFarm->getWikis() as $subdomain => $dbName ) {
 		$link = Html::element(
 			'a',
 			[

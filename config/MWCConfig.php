@@ -90,8 +90,8 @@ trait MWCConfig {
 	}
 
 	public function setupFarm( MWCFarm $farm ): self {
-		global $mwcFarm;
-		$mwcFarm = $farm;
+		global $wgMwcFarm;
+		$wgMwcFarm = $farm;
 		$farm->apply( $this );
 		return $this;
 	}
