@@ -45,7 +45,8 @@ if ( MW_ENTRY_POINT !== 'cli' ) {
 				</main>
 				<footer>
 					<p>
-						Powered by mw-dev-kit (<a href="https://github.com/SomeMWDev/mw-dev-kit" target="_blank">GitHub</a>)
+						Powered by mw-dev-kit
+						(<a href="https://github.com/SomeMWDev/mw-dev-kit" target="_blank">GitHub</a>)
 					</p>
 				</footer>
 			</body>
