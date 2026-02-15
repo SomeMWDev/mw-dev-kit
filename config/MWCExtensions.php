@@ -704,6 +704,27 @@ trait MWCExtensions {
 		return $this->ext( 'SimpleTooltip' );
 	}
 
+	public function SiteMatrix( string $filePath, ?array $sites = null ): self {
+		if ( $sites === null ) {
+			$sites = [];
+			global $wgMwcFarm;
+			if ( $wgMwcFarm ) {
+				foreach ( $wgMwcFarm->getWikis() as $subdomain => $dbname ) {
+					$sites[$dbname] = [
+						'name' => $dbname,
+						// TODO un-hardcode
+						'host' => "$subdomain.localhost:" . $this->env( 'MW_DOCKER_PORT' ),
+						'prefix' => $subdomain,
+					];
+				}
+			}
+		}
+		return $this
+			->ext( 'SiteMatrix' )
+			->conf( 'wgSiteMatrixFile', $filePath )
+			->conf( 'wgSiteMatrixSites', $sites );
+	}
+
 	/**
 	 * IMPORTANT: You need to call `require_once $c->extensionFilePath( 'SocialProfile', 'SocialProfile.php' );` in
 	 * LocalSettings.php in addition to calling this function!
