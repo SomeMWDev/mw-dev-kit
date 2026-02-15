@@ -934,7 +934,12 @@ trait MWCExtensions {
 	}
 
 	public function WikiLove(): self {
-		return $this->ext( 'WikiLove' );
+		return $this
+			->ext( 'WikiLove' )
+			// required for built-in awards
+			->enableInstantCommons()
+			// enable by default for all users
+			->conf( 'wgWikiLoveGlobal', true );
 	}
 
 	public function WikiPoints(): self {
