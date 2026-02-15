@@ -476,7 +476,7 @@ trait MWCExtensions {
 			} );
 	}
 
-	public function MultimediaViewer() {
+	public function MultimediaViewer(): self {
 		return $this->ext( 'MultimediaViewer' );
 	}
 
