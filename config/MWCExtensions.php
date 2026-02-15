@@ -88,6 +88,10 @@ trait MWCExtensions {
 			->conf( 'wgBucketDBpassword', $dbPassword );
 	}
 
+	public function CategoryTests(): self {
+		return $this->ext( 'CategoryTests' );
+	}
+
 	public function CategoryTree(): self {
 		return $this->ext( 'CategoryTree' );
 	}
@@ -436,6 +440,10 @@ trait MWCExtensions {
 			->grantPermission( 'sysop', 'masseditregex' );
 	}
 
+	public function MediaUploader(): self {
+		return $this->ext( 'MediaUploader' );
+	}
+
 	public function Mermaid(): self {
 		return $this->ext( 'Mermaid' );
 	}
@@ -466,6 +474,10 @@ trait MWCExtensions {
 			->modConf( 'wgMultiBoilerplateOptions', static function ( &$c ) use ( $boilerplates ) {
 				$c += $boilerplates;
 			} );
+	}
+
+	public function MultimediaViewer() {
+		return $this->ext( 'MultimediaViewer' );
 	}
 
 	public function MWDevHelper(): self {
@@ -592,6 +604,10 @@ trait MWCExtensions {
 		return $this->ext( 'RatePage' );
 	}
 
+	public function RefreshSpecial(): self {
+		return $this->ext( 'RefreshSpecial' );
+	}
+
 	public function RelatedArticles(
 		RelatedArticlesSource $source, bool $optionalDependencies = false
 	): self {
@@ -618,6 +634,10 @@ trait MWCExtensions {
 
 	public function ReplaceText(): self {
 		return $this->ext( 'ReplaceText' );
+	}
+
+	public function ReportIncident(): self {
+		return $this->ext( 'ReportIncident' );
 	}
 
 	public function RightFunctions(): self {
