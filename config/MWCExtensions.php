@@ -380,6 +380,15 @@ trait MWCExtensions {
 		return $this->ext( 'HidePrefix' );
 	}
 
+	/**
+	 * @param array<string, string> $highlights Category name => class
+	 */
+	public function HighlightLinksInCategory( array $highlights ): self {
+		return $this
+			->ext( 'HighlightLinksInCategory' )
+			->conf( 'wgHighlightLinksInCategory', $highlights );
+	}
+
 	public function ImageMapEdit(): self {
 		return $this->ext( 'ImageMapEdit' );
 	}
