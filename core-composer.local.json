@@ -17,6 +17,7 @@
 				"extensions/OAuth/composer.json",
 				"extensions/OOJSPlus/composer.json",
 				"extensions/TemplateStyles/composer.json",
+				"extensions/SemanticMediaWiki/composer.json",
 				"extensions/SemanticScribunto/composer.json",
 				"extensions/TimedMediaHandler/composer.json",
 				"extensions/WebAuthn/composer.json",
