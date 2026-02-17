@@ -337,6 +337,10 @@ trait MWCExtensions {
 		return $this->ext( 'FontAwesome' );
 	}
 
+	public function Gadgets(): self {
+		return $this->ext( 'Gadgets' );
+	}
+
 	public function GlobalUserPage( string $apiUrl ): self {
 		return $this
 			->ext( 'GlobalUserPage' )
@@ -594,10 +598,18 @@ trait MWCExtensions {
 		return $this->ext( 'ProofreadPage' );
 	}
 
+	public function ProtectSite(): self {
+		return $this->ext( 'ProtectSite' );
+	}
+
 	public function QuizGame(): self {
 		return $this
 			->SocialProfile()
 			->ext( 'QuizGame' );
+	}
+
+	public function RandomImageByCategory(): self {
+		return $this->ext( 'RandomImageByCategory' );
 	}
 
 	public function RatePage(): self {
