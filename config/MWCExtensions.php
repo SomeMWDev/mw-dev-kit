@@ -37,9 +37,9 @@ trait MWCExtensions {
 		return $this->ext( '3DAlloy' );
 	}
 
-	public function AdvancedSearch(): self {
+	public function AdvancedSearch( bool $useOpenSearch ): self {
 		return $this
-			->CirrusSearch()
+			->CirrusSearch( $useOpenSearch )
 			->ext( 'AdvancedSearch' );
 	}
 
