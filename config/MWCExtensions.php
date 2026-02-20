@@ -51,6 +51,10 @@ trait MWCExtensions {
 		return $this->ext( 'Analytics' );
 	}
 
+	public function AntiSpoof(): self {
+		return $this->ext( 'AntiSpoof' );
+	}
+
 	public function ApprovedRevs(): self {
 		return $this->ext( 'ApprovedRevs' );
 	}
@@ -98,6 +102,18 @@ trait MWCExtensions {
 
 	public function Cargo(): self {
 		return $this->ext( 'Cargo' );
+	}
+
+	public function CentralAuth(
+		string $centralWiki,
+	): self {
+		global $wgMwcFarm;
+		if ( !$wgMwcFarm ) {
+			throw new Exception( 'Please call setupFarm() before using ' . __METHOD__ . '!' );
+		}
+		return $this
+			->virtualDomainMapping( 'virtual-centralauth', $centralWiki )
+			->ext( 'CentralAuth' );
 	}
 
 	public function CentralNotice(): self {
