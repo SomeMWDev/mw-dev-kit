@@ -139,6 +139,14 @@ trait MWCFunctions {
 		} );
 	}
 
+	public function virtualDomainMapping( string $virtual, string $db, ?string $cluster = null ): self {
+		$mapping = [ 'db' => $db ];
+		if ( $cluster !== null ) {
+			$mapping['cluster'] = $cluster;
+		}
+		return $this->modConf( 'wgVirtualDomainsMapping', static fn ( &$c ) => $c[$virtual] = $mapping );
+	}
+
 	public function env( string $key, string $default = '' ): string {
 		global $wgMwcEnv;
 		// integration test fix
