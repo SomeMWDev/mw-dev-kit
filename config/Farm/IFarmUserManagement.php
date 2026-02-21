@@ -9,6 +9,12 @@ interface IFarmUserManagement {
 	/**
 	 * Initialize the user management and set all relevant config options.
 	 */
-	function setup( MWCFarm $farm, MediaWikiConfig $mwc ): void;
+	public function setup( MWCFarm $farm, MediaWikiConfig $mwc ): void;
+
+	/**
+	 * Override the check for whether a wiki exists.
+	 * Used for CentralAuth/SUL3.
+	 */
+	public function overrideWikiExists( MWCFarm $farm, MediaWikiConfig $mwc, string $subdomain ): ?string;
 
 }

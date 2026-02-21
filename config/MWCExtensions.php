@@ -111,9 +111,10 @@ trait MWCExtensions {
 		if ( !$wgMwcFarm ) {
 			throw new Exception( 'Please call setupFarm() before using ' . __METHOD__ . '!' );
 		}
+		// Call wfLoadExtension *before* setting the virtual domain mapping and similar settings
+		$this->ext( 'CentralAuth' );
 		return $this
-			->virtualDomainMapping( 'virtual-centralauth', $centralWiki )
-			->ext( 'CentralAuth' );
+			->virtualDomainMapping( 'virtual-centralauth', $centralWiki );
 	}
 
 	public function CentralNotice(): self {
