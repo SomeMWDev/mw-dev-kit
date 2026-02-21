@@ -45,6 +45,9 @@ class MWCFarm {
 			$serverVals[$dbname] = "http://$subdomain.localhost:$port";
 		}
 		$this->settings['wgServer'] = $serverVals;
+		$this->settings['wgArticlePath'] = [
+			'default' => $mwc->getConf( 'wgArticlePath' ),
+		];
 
 		if ( defined( 'MW_DB' ) ) {
 			$wikiId = MW_DB;
@@ -52,10 +55,13 @@ class MWCFarm {
 			$wikiId = $this->centralWiki;
 		} else {
 			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
-			if ( !array_key_exists( $subdomain, $this->wikis ) ) {
-				$this->showWikiMap();
-			} else {
-				$wikiId = $this->wikis[$subdomain];
+			$wikiId = $this->userManagement->overrideWikiExists( $this, $mwc, $subdomain );
+			if ( $wikiId === null ) {
+				if ( !array_key_exists( $subdomain, $this->wikis ) ) {
+					$this->showWikiMap();
+				} else {
+					$wikiId = $this->wikis[$subdomain];
+				}
 			}
 		}
 
@@ -67,14 +73,14 @@ class MWCFarm {
 		$siteConfiguration->suffixes = [ 'wiki' ];
 		$siteConfiguration->settings = $this->settings;
 
-		// Setup user management before config
-		$this->userManagement->setup( $this, $mwc );
-
 		foreach ( $siteConfiguration->getAll( $wikiId ) as $key => $value ) {
 			$mwc->conf( $key, $value );
 		}
 
 		$mwc->conf( 'wgConf', $siteConfiguration );
+
+		// Setup user management after config
+		$this->userManagement->setup( $this, $mwc );
 	}
 
 	private function showWikiMap(): never {
