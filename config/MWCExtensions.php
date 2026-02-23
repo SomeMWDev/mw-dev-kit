@@ -77,6 +77,10 @@ trait MWCExtensions {
 		return $this->ext( 'AutoCreatePage' );
 	}
 
+	public function BetaFeatures(): self {
+		return $this->ext( 'BetaFeatures' );
+	}
+
 	public function Bootstrap(): self {
 		return $this->ext( 'Bootstrap' );
 	}
@@ -168,6 +172,10 @@ trait MWCExtensions {
 
 	public function Cite(): self {
 		return $this->ext( 'Cite' );
+	}
+
+	public function CodeEditor(): self {
+		return $this->ext( 'CodeEditor' );
 	}
 
 	public function CodeMirror( CodeMirrorVersion $version = CodeMirrorVersion::V6 ): self {
@@ -903,6 +911,17 @@ trait MWCExtensions {
 
 	public function UserVerification(): self {
 		return $this->ext( 'UserVerification' );
+	}
+
+	public function Variables(): self {
+		return $this->ext( 'Variables' );
+	}
+
+	public function VariablesLua(): self {
+		return $this
+			->Scribunto()
+			->Variables()
+			->ext( 'VariablesLua' );
 	}
 
 	public function Video(): self {
