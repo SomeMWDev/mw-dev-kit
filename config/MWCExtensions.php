@@ -640,6 +640,30 @@ trait MWCExtensions {
 		return $this->ext( 'ProtectSite' );
 	}
 
+	public function QuickInstantCommons( ?string $apiUrl = null, ?string $name = null ): self {
+		if ( $apiUrl !== null ) {
+			// See https://www.mediawiki.org/wiki/Extension:QuickInstantCommons#Advanced_Configuration
+			$this->appendToIndexedConfArray( 'wgForeignFileRepos', [
+				'class' => '\MediaWiki\Extension\QuickInstantCommons\Repo',
+				'name' => $name ?? 'externalrepowiki',
+				'directory' => $this->getConf( 'wgUploadDirectory' ),
+				'apibase' => $apiUrl,
+				'hashLevels' => 2,
+				'thumbUrl' => false,
+				'fetchDescription' => true,
+				'descriptionCacheExpiry' => 43200,
+				'transformVia404' => false,
+				'abbrvThreshold' => 160,
+				'apiMetadataExpiry' => 60*60*24,
+				'disabledMediaHandlers' => []
+			] );
+		}
+		return $this
+			->ext( 'QuickInstantCommons' )
+			->conf( 'wgUseInstantCommons', false )
+			->conf( 'wgUseQuickInstantCommons', $apiUrl === null );
+	}
+
 	public function QuizGame(): self {
 		return $this
 			->SocialProfile()
