@@ -96,4 +96,9 @@ trait MWCConfig {
 		return $this;
 	}
 
+	public function getFarm(): ?MWCFarm {
+		global $wgMwcFarm;
+		return $wgMwcFarm;
+	}
+
 }
