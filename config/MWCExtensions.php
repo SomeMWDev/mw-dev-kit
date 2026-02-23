@@ -367,6 +367,10 @@ trait MWCExtensions {
 	}
 
 	public function GlobalUserPage( string $apiUrl ): self {
+		$farm = $this->getFarm();
+		if ( $farm ) {
+			$this->conf( 'wgGlobalUserPageDBname', $farm->getCentralWiki() );
+		}
 		return $this
 			->ext( 'GlobalUserPage' )
 			->conf( 'wgGlobalUserPageAPIUrl', $apiUrl );
