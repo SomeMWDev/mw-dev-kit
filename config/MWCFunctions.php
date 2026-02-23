@@ -85,6 +85,10 @@ trait MWCFunctions {
 		return $this->conf( $name, $val );
 	}
 
+	public function appendToIndexedConfArray( string $name, mixed $value ): self {
+		return $this->modConf( $name, static fn ( &$c ) => $c[] = $value );
+	}
+
 	/**
 	 * @param string $name
 	 * // phpcs:ignore MediaWiki.Commenting.FunctionComment.ObjectTypeHintParam

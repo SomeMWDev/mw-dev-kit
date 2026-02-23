@@ -993,7 +993,7 @@ trait MWCExtensions {
 	public function WikiEditor(): self {
 		return $this
 			->ext( 'WikiEditor' )
-			->modConf( 'wgHiddenPrefs', static fn ( &$c ) => $c[] = 'usebetatoolbar' )
+			->appendToIndexedConfArray( 'wgHiddenPrefs', 'usebetatoolbar' )
 			->defaultUserOption( 'usebetatoolbar', 1 );
 	}
 
