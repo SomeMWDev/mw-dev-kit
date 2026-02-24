@@ -380,6 +380,10 @@ trait MWCExtensions {
 		return $this->ext( 'GlobalUserrights' );
 	}
 
+	public function GlobalWatchlist(): self {
+		return $this->ext( 'GlobalWatchlist' );
+	}
+
 	public function GrowthExperiments(): self {
 		// https://www.mediawiki.org/wiki/Extension:GrowthExperiments/developer_setup
 		return $this
@@ -472,6 +476,10 @@ trait MWCExtensions {
 		return $this->ext( 'Lockdown' );
 	}
 
+	public function Loops(): self {
+		return $this->ext( 'Loops' );
+	}
+
 	public function Maps(): self {
 		return $this->ext( 'Maps' );
 	}
@@ -480,6 +488,11 @@ trait MWCExtensions {
 		return $this
 			->ext( 'MassEditRegex' )
 			->grantPermission( 'sysop', 'masseditregex' );
+	}
+
+	public function MediaSearch(): self {
+		// TODO are there any dependencies or settings?
+		return $this->ext( 'MediaSearch' );
 	}
 
 	public function MediaUploader(): self {
