@@ -668,7 +668,7 @@ trait MWCExtensions {
 				'transformVia404' => false,
 				'abbrvThreshold' => 160,
 				'apiMetadataExpiry' => 60*60*24,
-				'disabledMediaHandlers' => []
+				'disabledMediaHandlers' => [],
 			] );
 		}
 		return $this
@@ -685,6 +685,10 @@ trait MWCExtensions {
 
 	public function RandomImageByCategory(): self {
 		return $this->ext( 'RandomImageByCategory' );
+	}
+
+	public function RandomSelection(): self {
+		return $this->ext( 'RandomSelection' );
 	}
 
 	public function RatePage(): self {
