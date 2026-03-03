@@ -13,6 +13,8 @@ services:
       - "./tools:${MW_INSTALL_PATH}/tools"
     env_file: config/.env
     networks: [ mw ]
+    environment:
+      HISTFILE: /var/www/html/w/cache/.bash_history
   mediawiki-web:
     image: docker-registry.wikimedia.org/dev/bookworm-apache2:1.0.1
     user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
