@@ -10,8 +10,13 @@ use MediaWikiConfig\MediaWikiConfig;
 class StandaloneUserManagement implements IFarmUserManagement {
 
 	/** @inheritDoc */
-	function setup( MWCFarm $farm, MediaWikiConfig $mwc ): void {
-		// Don't do anything, this is already the default behaviour of MW
+	public function setup( MWCFarm $farm, MediaWikiConfig $mwc ): void {
+		// Don't do anything, this is already the default behavior of MW
+	}
+
+	/** @inheritDoc */
+	public function overrideWikiExists( MWCFarm $farm, MediaWikiConfig $mwc, string $subdomain ): ?string {
+		return null;
 	}
 
 }
