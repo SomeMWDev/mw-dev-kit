@@ -667,7 +667,7 @@ trait MWCExtensions {
 				'descriptionCacheExpiry' => 43200,
 				'transformVia404' => false,
 				'abbrvThreshold' => 160,
-				'apiMetadataExpiry' => 60*60*24,
+				'apiMetadataExpiry' => 60 * 60 * 24,
 				'disabledMediaHandlers' => [],
 			] );
 		}
