@@ -173,4 +173,16 @@ trait MWCFunctions {
 		} );
 	}
 
+	public function customProtectionLevel( string $name, bool $cascading, ?string $grantTo = null ): self {
+		if ( $cascading ) {
+			$this->appendToIndexedConfArray( 'wgCascadingRestrictionLevels', $name );
+		}
+		if ( $grantTo !== null ) {
+			$this->grantPermission( $grantTo, $name );
+		}
+		return $this
+			->appendToIndexedConfArray( 'wgRestrictionLevels', $name )
+			->appendToIndexedConfArray( 'wgAvailableRights', $name );
+	}
+
 }
