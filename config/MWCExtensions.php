@@ -490,6 +490,10 @@ trait MWCExtensions {
 			->grantPermission( 'sysop', 'masseditregex' );
 	}
 
+	public function Math(): self {
+		return $this->ext( 'Math' );
+	}
+
 	public function MediaSearch(): self {
 		// TODO are there any dependencies or settings?
 		return $this->ext( 'MediaSearch' );
@@ -932,6 +936,10 @@ trait MWCExtensions {
 
 	public function TreeAndMenu(): self {
 		return $this->ext( 'TreeAndMenu' );
+	}
+
+	public function TwoColConflict(): self {
+		return $this->ext( 'TwoColConflict' );
 	}
 
 	public function UniversalLanguageSelector(): self {
