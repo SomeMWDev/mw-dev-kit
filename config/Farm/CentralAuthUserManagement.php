@@ -32,11 +32,13 @@ class CentralAuthUserManagement implements IFarmUserManagement {
 		$mwc
 			->conf( 'wgCentralAuthSharedDomainCallback', fn ( $dbname ) => $this->getAuthDomain( $mwc, $dbname ) )
 			->conf( 'wgCentralAuthEnableSul3', true )
+			->conf( 'wgCentralAuthRestrictSharedDomain', true )
 			->conf( 'wgServer', WebRequest::detectServer( true ) )
 			->cloneConf( 'wgCanonicalServer', 'wgServer' );
 
 		if ( $mwc->getConf( 'wgServer' ) === $this->getAuthDomain( $mwc, null ) ) {
 			$dbName = $mwc->getConf( 'wgDBname' );
+			// TODO disable wgUseSiteCss/wgUseSiteJs?
 			$mwc
 				->conf( 'wgEnableSidebarCache', false )
 				->conf( 'wgCentralAuthCookieDomain', '' )
@@ -51,7 +53,9 @@ class CentralAuthUserManagement implements IFarmUserManagement {
 				->conf( 'wgStylePath', $mwc->getConf( 'wgResourceBasePath' ) . '/skins' )
 				->cloneConf( 'wgLocalStylePath', 'wgStylePath' )
 				->conf( 'wgArticlePath', "/$dbName/wiki/\$1" )
-				->conf( 'wgServer', $this->getAuthDomain( $mwc, null ) );
+				->conf( 'wgServer', $this->getAuthDomain( $mwc, null ) )
+				->modConf( 'wgCentralAuthSul3SharedDomainRestrictions',
+					static fn ( &$c ) => $c['allowedEntryPoints'] = [ 'load' ] );
 		}
 	}
 
