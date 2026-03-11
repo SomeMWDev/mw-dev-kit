@@ -53,15 +53,18 @@ Requirements:
 
 ### Using `mwutil init`
 
+> [!WARNING]
+> This method is currently not supported because it hasn't been ported to the rust rewrite of mwutil yet.
+
 1. Setup [mwutil](https://github.com/SomeMWDev/mwutil) if you haven't yet
 2. Run `mwutil init` in the folder you want your project folder to be placed in
 3. Follow the steps
 
 ### Manually
 
-1. Clone this repo into a folder and cd into it.
+1. Clone this repo into a folder and cd into it. Note that the folder name will be used as the docker project name.
 2. `cp ./config/.env.example ./config/.env`
-3. Edit `./config/.env` and customize the options. At least `MEDIAWIKI_PASSWORD`, `DB_ROOT_PASSWORD`, `CHANGE_ME`,
+3. Edit `./config/.env` and customize the options. At least `MEDIAWIKI_PASSWORD`, `DB_ROOT_PASSWORD`, `MWC_DB_PASSWORD`,
    `MW_SECRET_KEY` and the git/gerrit sections should be changed
 4. Clone core using SSH: `git clone ssh://<username>@gerrit.wikimedia.org:29418/mediawiki/core` (replace `<username>` with
    your gerrit username)
@@ -69,14 +72,15 @@ Requirements:
 6. Setup [mwutil](https://github.com/SomeMWDev/mwutil) if you haven't yet
 7. Create an empty mwutil config file: `echo "{}" > .mwutil.json`
 8. Start the containers: `mwutil up`
-9. Install the dependencies: `mwutil bash composer install`
+9. Install the dependencies: `mwutil composer`
 10. Create a default LocalSettings.php file: `cp LocalSettings.default.php LocalSettings.php`
 11. `ln LocalSettings.php core/LocalSettings.php`
-12. Install MediaWiki (this is done by resetting the installation): `mwutil reset`
+12. Install MediaWiki (this is done by resetting the installation): `mwutil reset database`
 13. Set up the origin and git config for MW core, if you want to contribute to it later: `cd core && mwutil setup-gerrit`
-14. Clone Vector, so you can use it: `mwutil clone skin gerrit Vector --quick --branch <MW Branch>` (note: `--quick` creates a shallow
+14. Clone Vector, so you can use it: `mwutil clone skin gerrit Vector --quick` (note: `--quick` creates a shallow
     clone; if you plan to contribute to Vector, consider removing the parameter to fully clone it)
-15. Visit `localhost:4001` in your browser
+15. Enable Vector and set it to the default skin by adding `$c->Vector( true );` to LocalSettings.php
+16. Visit `localhost:4001` in your browser
 
 ## Debugging
 
