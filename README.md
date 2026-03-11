@@ -69,7 +69,7 @@ Requirements:
 4. Clone core using SSH: `git clone ssh://<username>@gerrit.wikimedia.org:29418/mediawiki/core` (replace `<username>` with
    your gerrit username)
 5. `ln core-composer.local.json core/composer.local.json`
-6. Setup [mwutil](https://github.com/SomeMWDev/mwutil) if you haven't yet
+6. Set up the rust version of [mwutil](https://github.com/SomeMWDev/mwutil) if you haven't yet
 7. Create an empty mwutil config file: `echo "{}" > .mwutil.json`
 8. Start the containers: `mwutil up`
 9. Install the dependencies: `mwutil composer`
