@@ -3,6 +3,7 @@
 		"merge-plugin": {
 			"include": [
 				"extensions/AbuseFilter/composer.json",
+				"extensions/AntiSpoof/composer.json",
 				"extensions/CheckUser/composer.json",
 				"extensions/CirrusSearch/composer.json",
 				"extensions/CognitiveProcessDesigner/composer.json",
