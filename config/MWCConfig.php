@@ -29,6 +29,7 @@ trait MWCConfig {
 	}
 
 	public function disableSQLStrictMode(): self {
+		wfWarn( 'SQL strict mode is disabled!' );
 		return $this->conf( 'wgSQLMode', '' );
 	}
 
