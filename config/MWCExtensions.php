@@ -755,7 +755,7 @@ trait MWCExtensions {
 	public const SCRIBUNTO_ENGINE_LUASANDBOX = 2;
 
 	public function Scribunto(
-		int $engine = self::SCRIBUNTO_ENGINE_LUASTANDALONE,
+		?int $engine = null,
 		array $engineConfOverrides = []
 	): self {
 		switch ( $engine ) {
