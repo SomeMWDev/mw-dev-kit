@@ -144,6 +144,7 @@ trait MWCProfiling {
 		if ( MW_ENTRY_POINT === 'cli' ) {
 			register_shutdown_function( $callable );
 		} else {
+			// phpcs:ignore MediaWiki.Usage.DeprecatedGlobalVariables.Deprecated$wgHooks
 			global $wgHooks;
 			if ( $forced ) {
 				global $wgExtensionFunctions;
@@ -167,8 +168,14 @@ trait MWCProfiling {
         const endpoint = $endpointJs;
         const speedscopeUrl = new URL( 'https://speedscope.app' );
         speedscopeUrl.hash = `profileURL=\${endpoint}/profile/\${profileId}`;
-        const speedscopeLink = $( '<a>' ).attr( 'href', speedscopeUrl.toString() ).attr( 'target', '_blank' ).text( 'Speedscope' );
-        const jsonLink = $( '<a>' ).attr( 'href', `\${endpoint}/profile/\${profileId}` ).attr( 'target', '_blank' ).text( 'JSON' );
+        const speedscopeLink = $( '<a>' )
+            .attr( 'href', speedscopeUrl.toString() )
+            .attr( 'target', '_blank' )
+            .text( 'Speedscope' );
+        const jsonLink = $( '<a>' )
+            .attr( 'href', `\${endpoint}/profile/\${profileId}` )
+            .attr( 'target', '_blank' )
+            .text( 'JSON' );
         mw.notify(
             $( '<div>' ).append( speedscopeLink, ' (', jsonLink, ')' ),
             {
@@ -184,12 +191,19 @@ JS
 					) );
 				};
 			}
-			$wgHooks['ParserBeforeInternalParse'][] = static function ( $parser, &$text, $stripState ) use ( &$pageViewCausedParse )  {
+			$wgHooks['ParserBeforeInternalParse'][] = static function (
+				$parser,
+				&$text,
+				$stripState
+			) use ( &$pageViewCausedParse )  {
 				if ( str_starts_with( $parser->getOptions()?->getRenderReason(), 'page_view' ) ) {
 					$pageViewCausedParse = true;
 				}
 			};
-			$wgHooks['OutputPageParserOutput'][] = static function ( $outputPage, $parserOutput ) use ( &$pageViewCausedParse, &$parserReport ) {
+			$wgHooks['OutputPageParserOutput'][] = static function (
+				$outputPage,
+				$parserOutput
+			) use ( &$pageViewCausedParse, &$parserReport ) {
 				if ( !$pageViewCausedParse ) {
 					return;
 				}
