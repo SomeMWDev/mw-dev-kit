@@ -914,6 +914,10 @@ trait MWCExtensions {
 		return $this->ext( 'Thanks' );
 	}
 
+	public function ThemeToggle(): self {
+		return $this->ext( 'ThemeToggle' );
+	}
+
 	public function Tilesheets(): self {
 		return $this
 			// requirement not specified in extension.json
