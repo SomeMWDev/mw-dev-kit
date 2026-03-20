@@ -384,6 +384,10 @@ trait MWCExtensions {
 		return $this->ext( 'GlobalWatchlist' );
 	}
 
+	public function GoogleNewsSitemap(): self {
+		return $this->ext( 'GoogleNewsSitemap' );
+	}
+
 	public function GrowthExperiments(): self {
 		// https://www.mediawiki.org/wiki/Extension:GrowthExperiments/developer_setup
 		return $this
@@ -466,6 +470,10 @@ trait MWCExtensions {
 
 	public function LinkCards(): self {
 		return $this->ext( 'LinkCards' );
+	}
+
+	public function LiquidThreads(): self {
+		return $this->ext( 'LiquidThreads' );
 	}
 
 	public function LockAuthor(): self {
@@ -932,6 +940,10 @@ trait MWCExtensions {
 
 	public function TitleBlacklist(): self {
 		return $this->ext( 'TitleBlacklist' );
+	}
+
+	public function TorBlock(): self {
+		return $this->ext( 'TorBlock' );
 	}
 
 	public function Translate(): self {
