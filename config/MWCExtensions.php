@@ -25,12 +25,20 @@ trait MWCExtensions {
 
 	private array $extensionFunctionMappings = [
 		'Echo' => 'Echo_',
+		'3D' => '_3D',
 		'3DAlloy' => '_3DAlloy',
 	];
 
 	public function loadExtensionOrSkin( string $functionName ): self {
 		$fName = $this->extensionFunctionMappings[$functionName] ?? $functionName;
 		return $this->$fName();
+	}
+
+	public function _3D(): self {
+		return $this
+			->ext( '3D' )
+			->allowFileExtensions( 'stl' )
+			->appendToIndexedConfArray( 'wgTrustedMediaFormats', 'application/sla' );
 	}
 
 	public function _3DAlloy(): self {
