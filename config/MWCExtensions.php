@@ -492,6 +492,10 @@ trait MWCExtensions {
 		return $this->ext( 'Lockdown' );
 	}
 
+	public function LoginNotify(): self {
+		return $this->ext( 'LoginNotify' );
+	}
+
 	public function Loops(): self {
 		return $this->ext( 'Loops' );
 	}
