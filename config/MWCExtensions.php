@@ -701,6 +701,10 @@ trait MWCExtensions {
 			->conf( 'wgUseQuickInstantCommons', $apiUrl === null );
 	}
 
+	public function Quiz(): self {
+		return $this->ext( 'Quiz' );
+	}
+
 	public function QuizGame(): self {
 		return $this
 			->SocialProfile()
@@ -1121,6 +1125,10 @@ trait MWCExtensions {
 			// strict mode is seemingly unsupported by mwstake-mediawiki-component-datastore
 			->disableSQLStrictMode()
 			->ext( 'BlueSpiceWhoIsOnline' );
+	}
+
+	public function Calendar(): self {
+		return $this->ext( 'Calendar' );
 	}
 
 	public function CognitiveProcessDesigner(): self {
