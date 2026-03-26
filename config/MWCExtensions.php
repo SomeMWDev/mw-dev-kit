@@ -45,6 +45,10 @@ trait MWCExtensions {
 		return $this->ext( '3DAlloy' );
 	}
 
+	public function AbuseFilter(): self {
+		return $this->ext( 'AbuseFilter' );
+	}
+
 	public function AdvancedSearch( bool $useOpenSearch ): self {
 		return $this
 			->CirrusSearch( $useOpenSearch )
