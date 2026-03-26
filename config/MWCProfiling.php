@@ -119,19 +119,22 @@ trait MWCProfiling {
 			$data['memory_peak_allocated_bytes'] = memory_get_peak_usage( true );
 
 			$client = new Client();
+			$body = json_encode( [
+				'id' => $id,
+				'wiki' => $wgDBname ?? 'unknown',
+				'url' => $requestUri,
+				'cfRay' => $requestContext->getRequest()->getHeader( 'Cf-Ray' ) ?: 'unknown',
+				'forced' => $forced,
+				'speedscopeData' => json_encode( $data ),
+				'parserReport' => $parserReport ? json_encode( $parserReport ) : null,
+				'environment' => $environment,
+			] );
 			$options = [
-				RequestOptions::JSON => [
-					'id' => $id,
-					'wiki' => $wgDBname ?? 'unknown',
-					'url' => $requestUri,
-					'cfRay' => $requestContext->getRequest()->getHeader( 'Cf-Ray' ) ?: 'unknown',
-					'forced' => $forced,
-					'speedscopeData' => json_encode( $data ),
-					'parserReport' => $parserReport ? json_encode( $parserReport ) : null,
-					'environment' => $environment,
-				],
+				RequestOptions::BODY => gzencode( $body ),
 				RequestOptions::HEADERS => [
 					'Authorization' => 'Bearer ' . $token,
+					'Content-Encoding' => 'gzip',
+					'Content-Type' => 'application/json',
 				],
 			];
 			try {
