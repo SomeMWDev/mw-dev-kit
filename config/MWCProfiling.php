@@ -10,8 +10,9 @@ use GuzzleHttp\RequestOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Exception\MWExceptionHandler;
-use MediaWiki\Html\Html;
 use MediaWiki\Output\OutputPage;
+use MediaWiki\ResourceLoader\Context;
+use MediaWiki\ResourceLoader\Module;
 use Throwable;
 
 trait MWCProfiling {
@@ -71,6 +72,44 @@ trait MWCProfiling {
 		?string $requiredParameter = 'forceflame',
 		?string $publicEndpoint = null
 	): self {
+		// Always register the module, since it's loaded in a separate request
+		global $wgResourceModules;
+		$wgResourceModules['mwc.speedscopeNotification'] = [
+			'class' => new class extends Module {
+				/** @inheritDoc */
+				public function getScript( Context $context ): string {
+					return <<<JS
+$( () => {
+	const profileId = mw.config.get( 'speedscopeProfileId' );
+	const endpoint = mw.config.get( 'speedscopeEndpoint' );
+	const speedscopeUrl = new URL( 'https://speedscope.app' );
+	speedscopeUrl.hash = `profileURL=\${endpoint}/profile/\${profileId}`;
+	const speedscopeLink = $( '<a>' )
+		.attr( 'href', speedscopeUrl.toString() )
+		.attr( 'target', '_blank' )
+		.text( 'Speedscope' );
+	const jsonLink = $( '<a>' )
+		.attr( 'href', `\${endpoint}/profile/\${profileId}` )
+		.attr( 'target', '_blank' )
+		.text( 'JSON' );
+	const metadataLink = $( '<a>' )
+		.attr( 'href', `\${endpoint}/metadata/\${profileId}` )
+		.attr( 'target', '_blank' )
+		.text( 'Metadata' );
+	mw.notify(
+		$( '<div>' ).append( speedscopeLink, ' (', jsonLink, ', ', metadataLink, ')' ),
+		{
+			autoHide: false,
+			title: 'Profile recorded successfully',
+			type: 'success'
+		}
+	);
+} );
+JS;
+				}
+			},
+		];
+
 		// phpcs:ignore MediaWiki.Usage.SuperGlobalsUsage.SuperGlobals
 		$forced = $requiredParameter !== null && isset( $_GET[$requiredParameter] );
 		if ( extension_loaded( 'excimer' ) && (
@@ -156,42 +195,11 @@ trait MWCProfiling {
 				};
 				$wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) use ( $id, $publicEndpoint ) {
 					/** @var OutputPage $out */
-					$out->addJsConfigVars( [ 'speedscopeProfileId' => $id ] );
-					$endpointJs = Html::encodeJsVar( $publicEndpoint );
-					$profileIdJs = Html::encodeJsVar( $id );
-					$out->addHTML( Html::rawElement(
-						'script',
-						[],
-						<<<JS
-(function() {
-    'use strict';
-
-    setTimeout(() => {
-        const profileId = $profileIdJs;
-        const endpoint = $endpointJs;
-        const speedscopeUrl = new URL( 'https://speedscope.app' );
-        speedscopeUrl.hash = `profileURL=\${endpoint}/profile/\${profileId}`;
-        const speedscopeLink = $( '<a>' )
-            .attr( 'href', speedscopeUrl.toString() )
-            .attr( 'target', '_blank' )
-            .text( 'Speedscope' );
-        const jsonLink = $( '<a>' )
-            .attr( 'href', `\${endpoint}/profile/\${profileId}` )
-            .attr( 'target', '_blank' )
-            .text( 'JSON' );
-        mw.notify(
-            $( '<div>' ).append( speedscopeLink, ' (', jsonLink, ')' ),
-            {
-                autoHide: false,
-                title: 'Profile recorded successfully',
-                type: 'success'
-            }
-        );
-    }, 1000);
-
-})();
-JS
-					) );
+					$out->addJsConfigVars( [
+						'speedscopeEndpoint' => $publicEndpoint,
+						'speedscopeProfileId' => $id,
+					] );
+					$out->addModules( 'mwc.speedscopeNotification' );
 				};
 			}
 			$wgHooks['ParserBeforeInternalParse'][] = static function (
