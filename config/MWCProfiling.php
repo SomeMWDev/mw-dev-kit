@@ -82,10 +82,8 @@ trait MWCProfiling {
 $( () => {
 	const profileId = mw.config.get( 'speedscopeProfileId' );
 	const endpoint = mw.config.get( 'speedscopeEndpoint' );
-	const speedscopeUrl = new URL( 'https://speedscope.app' );
-	speedscopeUrl.hash = `profileURL=\${endpoint}/profile/\${profileId}`;
 	const speedscopeLink = $( '<a>' )
-		.attr( 'href', speedscopeUrl.toString() )
+		.attr( 'href', `\${endpoint}/view/\${profileId}` )
 		.attr( 'target', '_blank' )
 		.text( 'Speedscope' );
 	const jsonLink = $( '<a>' )
