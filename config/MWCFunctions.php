@@ -89,6 +89,10 @@ trait MWCFunctions {
 		return $this->modConf( $name, static fn ( &$c ) => $c[] = $value );
 	}
 
+	public function setAssociativeConfArrayValue( string $name, string $key, mixed $value ): self {
+		return $this->modConf( $name, static fn ( &$c ) => $c[$key] = $value );
+	}
+
 	/**
 	 * @param string $name
 	 * // phpcs:ignore MediaWiki.Commenting.FunctionComment.ObjectTypeHintParam
