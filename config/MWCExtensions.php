@@ -71,14 +71,27 @@ trait MWCExtensions {
 		return $this->ext( 'ApprovedRevs' );
 	}
 
-	public function ArticleFeedbackv5(): self {
-		return $this->ext( 'ArticleFeedbackv5' );
+	public function Arrays(): self {
+		return $this->ext( 'Arrays' );
+	}
+
+	/**
+	 * @param string[] $categories
+	 */
+	public function ArticleFeedbackv5( array $categories = [] ): self {
+		return $this
+			->ext( 'ArticleFeedbackv5' )
+			->conf( 'wgArticleFeedbackv5Categories', $categories );
 	}
 
 	public function ArticleSummaries(): self {
 		return $this
 			->MinervaNeue( true )
 			->ext( 'ArticleSummaries' );
+	}
+
+	public function AuthorProtect(): self {
+		return $this->ext( 'AuthorProtect' );
 	}
 
 	public function AutoCreateCategoryPages(): self {
@@ -91,6 +104,14 @@ trait MWCExtensions {
 
 	public function BetaFeatures(): self {
 		return $this->ext( 'BetaFeatures' );
+	}
+
+	public function BlogPage(): self {
+		return $this
+			->SocialProfile()
+			->Comments()
+			->VoteNY()
+			->ext( 'BlogPage' );
 	}
 
 	public function Bootstrap(): self {
@@ -460,7 +481,27 @@ trait MWCExtensions {
 		return $this->ext( 'InterwikiDispatcher' );
 	}
 
-	public function JsonConfig(): self {
+	public function JsonConfig( bool $enableLocalTabularContent = false ): self {
+		if ( $enableLocalTabularContent ) {
+			$this->setAssociativeConfArrayValue(
+				'wgJsonConfigModels',
+				'Tabular.JsonConfig',
+				'JsonConfig\JCTabularContent'
+			);
+			$this->setAssociativeConfArrayValue(
+				'wgJsonConfigs',
+				'Tabular.JsonConfig',
+				[
+					'namespace' => 468,
+					'nsName' => 'Data',
+					// page name must end in .tab, and contain at least one symbol
+					'pattern' => '/.\.tab$/',
+					'license' => 'CC0-1.0',
+					'isLocal' => true,
+					'store' => true,
+				]
+			);
+		}
 		return $this->ext( 'JsonConfig' );
 	}
 
@@ -541,6 +582,10 @@ trait MWCExtensions {
 
 	public function Monstranto(): self {
 		return $this->ext( 'Monstranto' );
+	}
+
+	public function MsCalendar(): self {
+		return $this->ext( 'MsCalendar' );
 	}
 
 	public function MsUpload(): self {
@@ -835,6 +880,10 @@ trait MWCExtensions {
 		return $this->ext( 'SemanticScribunto' );
 	}
 
+	public function Share(): self {
+		return $this->ext( 'Share' );
+	}
+
 	public function ShortDescription(): self {
 		return $this->ext( 'ShortDescription' );
 	}
@@ -978,6 +1027,10 @@ trait MWCExtensions {
 		return $this->ext( 'TwoColConflict' );
 	}
 
+	public function UIFeedback(): self {
+		return $this->ext( 'UIFeedback' );
+	}
+
 	public function UniversalLanguageSelector(): self {
 		return $this->ext( 'UniversalLanguageSelector' );
 	}
@@ -1069,6 +1122,10 @@ trait MWCExtensions {
 			->ext( 'Wikistories' )
 			->conf( 'wgWikistoriesDiscoveryMode', 'public' )
 			->conf( 'wgWikistoriesRestDomain', 'wikipedia.org' );
+	}
+
+	public function WikiTextLoggedInOut(): self {
+		return $this->ext( 'WikiTextLoggedInOut' );
 	}
 
 	public function WikiCategoryTagCloud(): self {
