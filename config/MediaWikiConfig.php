@@ -18,8 +18,11 @@ class MediaWikiConfig {
 
 	private static ?MediaWikiConfig $instance = null;
 
+	/** @var array<string, bool> */
 	private array $disabledExtensions = [];
+	/** @var array<string, bool> */
 	private array $loadedExtensions = [];
+	/** @var array<string, bool> */
 	private array $loadedSkins = [];
 
 	protected function __construct() {
