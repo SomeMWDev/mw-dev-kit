@@ -135,22 +135,24 @@ trait MWCFunctions {
 		return $this;
 	}
 
-	public function grantPermission( string $group, string $permission, bool $grant = true ): self {
-		return $this->modConf( 'wgGroupPermissions', static function ( &$c ) use ( $group, $permission, $grant ) {
-			$c[$group][$permission] = $grant;
+	public function grantPermission( array|string $groups, string $permission, bool $grant = true ): self {
+		return $this->modConf( 'wgGroupPermissions', static function ( &$c ) use ( $groups, $permission, $grant ) {
+			foreach ( (array)$groups as $group ) {
+				$c[$group][$permission] = $grant;
+			}
 		} );
 	}
 
-	public function grantPermissions( string $group, string ...$permissions ): self {
+	public function grantPermissions( array|string $groups, string ...$permissions ): self {
 		foreach ( $permissions as $permission ) {
-			$this->grantPermission( $group, $permission );
+			$this->grantPermission( $groups, $permission );
 		}
 
 		return $this;
 	}
 
-	public function revokePermission( string $group, string $permission ): self {
-		return $this->grantPermission( $group, $permission, false );
+	public function revokePermission( array|string $groups, string $permission ): self {
+		return $this->grantPermission( $groups, $permission, false );
 	}
 
 	public function defaultUserOption( string $option, mixed $value ): self {
