@@ -16,6 +16,10 @@ trait MWCFunctions {
 			// Duplicate
 			return $this;
 		}
+		if ( array_key_exists( $name, $this->disabledExtensions ) ) {
+			// Disabled
+			return $this;
+		}
 
 		$cachedDependencies = $this->fetchExtDependencies( $name, $extensionJson );
 
@@ -26,6 +30,14 @@ trait MWCFunctions {
 		$this->loadedExtensions[$name] = true;
 		wfLoadExtension( $name, $extensionJson );
 
+		return $this;
+	}
+
+	/**
+	 * Prevent an extension from being loaded by MWC.
+	 */
+	public function disableExtension( string $name ): self {
+		$this->disabledExtensions[ $name ] = true;
 		return $this;
 	}
 

@@ -18,6 +18,7 @@ class MediaWikiConfig {
 
 	private static ?MediaWikiConfig $instance = null;
 
+	private array $disabledExtensions = [];
 	private array $loadedExtensions = [];
 	private array $loadedSkins = [];
 
