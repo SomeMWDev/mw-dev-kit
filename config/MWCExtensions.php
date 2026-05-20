@@ -824,7 +824,7 @@ trait MWCExtensions {
 
 	public function ParserFunctions( ?bool $enableStringFunctions = null ): self {
 		if ( $enableStringFunctions !== null ) {
-			$this->conf( 'wgPFEnableStringFunctions', $enableStringFunctions )
+			$this->conf( 'wgPFEnableStringFunctions', $enableStringFunctions );
 		}
 		return $this->ext( 'ParserFunctions' );
 	}
