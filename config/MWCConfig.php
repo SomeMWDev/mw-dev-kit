@@ -6,6 +6,10 @@ use MediaWikiConfig\Farm\MWCFarm;
 
 trait MWCConfig {
 
+	public function addNoFollowDomainExceptions( string ...$exceptions ): self {
+		return $this->appendMultipleToIndexedConfArray( 'wgNoFollowDomainExceptions', $exceptions );
+	}
+
 	public function allowExternalImages( bool $doAllow = true ): self {
 		return $this->conf( 'wgAllowExternalImages', $doAllow );
 	}
@@ -22,6 +26,10 @@ trait MWCConfig {
 
 	public function contentLanguage( string $code ): self {
 		return $this->conf( 'wgLanguageCode', $code );
+	}
+
+	public function disableHashedUploadDirectory( bool $doDisable = true ): self {
+		return $this->conf( 'wgHashedUploadDirectory', !$doDisable );
 	}
 
 	public function defaultSkin( string $symbolicName ): self {
@@ -77,6 +85,14 @@ trait MWCConfig {
 
 	public function enableUploads( bool $doEnable = true ): self {
 		return $this->conf( 'wgEnableUploads', $doEnable );
+	}
+
+	public function enableWatchlistExpiry( bool $doEnable = true ): self {
+		return $this->conf( 'wgWatchlistExpiry', $doEnable );
+	}
+
+	public function enableWatchlistLabels( bool $doEnable = true ): self {
+		return $this->conf( 'wgEnableWatchlistLabels', $doEnable );
 	}
 
 	public function forceDeferredUpdatesPostSend( bool $doForce = true ): self {

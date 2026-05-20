@@ -98,7 +98,11 @@ trait MWCFunctions {
 	}
 
 	public function appendToIndexedConfArray( string $name, mixed $value ): self {
-		return $this->modConf( $name, static fn ( &$c ) => $c[] = $value );
+		return $this->appendMultipleToIndexedConfArray( $name, [ $value ] );
+	}
+
+	public function appendMultipleToIndexedConfArray( string $name, array $values ): self {
+		return $this->modConf( $name, static fn ( &$c ) => $c = array_merge( $c, $values ) );
 	}
 
 	public function setAssociativeConfArrayValue( string $name, string $key, mixed $value ): self {
