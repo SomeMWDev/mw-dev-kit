@@ -757,8 +757,10 @@ trait MWCExtensions {
 			->conf( 'wgPageViewInfoWikimediaDomain', 'en.wikipedia.org' );
 	}
 
-	public function ParserFunctions(): self {
-		return $this->ext( 'ParserFunctions' );
+	public function ParserFunctions( bool $enableStringFunctions = false ): self {
+		return $this
+			->ext( 'ParserFunctions' )
+			->conf( 'wgPFEnableStringFunctions', $enableStringFunctions );
 	}
 
 	public function ParserMigration(
