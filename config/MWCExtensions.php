@@ -21,6 +21,46 @@ enum RelatedArticlesSource {
 	case WIKIDATA;
 }
 
+abstract class ConfirmEditCaptcha {
+
+	public function applyConfiguration( MediaWikiConfig $c ): void {
+		$c->conf( 'wgCaptchaClass', $this->getCaptchaClass() );
+	}
+
+	abstract protected function getCaptchaClass(): string;
+}
+
+class ConfirmEditSimpleCaptcha extends ConfirmEditCaptcha {
+
+	protected function getCaptchaClass(): string {
+		return 'SimpleCaptcha';
+	}
+
+}
+
+class ConfirmEditFancyCaptcha extends ConfirmEditCaptcha {
+
+	public function __construct(
+		private readonly string $directory,
+		private readonly string $secret,
+	) {
+	}
+
+	protected function getCaptchaClass(): string {
+		return 'FancyCaptcha';
+	}
+
+	public function applyConfiguration( MediaWikiConfig $c ): void {
+		parent::applyConfiguration( $c );
+		$c
+			->ext( 'ConfirmEdit/FancyCaptcha' )
+			->conf( 'wgCaptchaDirectory', $this->directory )
+			->conf( 'wgCaptchaSecret', $this->secret )
+			->conf( 'wgCaptchaDirectoryLevels', 0 );
+	}
+
+}
+
 trait MWCExtensions {
 
 	private array $extensionFunctionMappings = [
@@ -261,6 +301,11 @@ trait MWCExtensions {
 		return $this
 			->ext( 'ConfirmAccount' )
 			->revokePermission( '*', 'createaccount' );
+	}
+
+	public function ConfirmEdit( ConfirmEditCaptcha $captcha ): self {
+		$captcha->applyConfiguration( $this );
+		return $this->ext( 'ConfirmEdit' );
 	}
 
 	public function ContentTranslation( string $cxServer ): self {
@@ -525,6 +570,10 @@ trait MWCExtensions {
 		return $this->ext( 'LinkCards' );
 	}
 
+	public function Linter(): self {
+		return $this->ext( 'Linter' );
+	}
+
 	public function LiquidThreads(): self {
 		return $this->ext( 'LiquidThreads' );
 	}
@@ -549,6 +598,12 @@ trait MWCExtensions {
 		return $this->ext( 'Maps' );
 	}
 
+	public function MarkAsHelpful( array $type = [ 'mbresponse' ] ): self {
+		return $this
+			->ext( 'MarkAsHelpful' )
+			->conf( 'wgMarkAsHelpfulType', $type );
+	}
+
 	public function MassEditRegex(): self {
 		return $this
 			->ext( 'MassEditRegex' )
@@ -570,6 +625,13 @@ trait MWCExtensions {
 
 	public function Mermaid(): self {
 		return $this->ext( 'Mermaid' );
+	}
+
+	public function MixedVisibilityFiles(): self {
+		$scriptPath = $this->getConf( 'wgScriptPath' );
+		return $this
+			->conf( 'wgUploadPath', "$scriptPath/img_auth.php" )
+			->ext( 'MixedVisibilityFiles' );
 	}
 
 	public function MobileFrontend(): self {
