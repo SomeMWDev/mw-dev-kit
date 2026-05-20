@@ -22,7 +22,7 @@
 		],
 		"fix": [
 			"minus-x fix .",
-			"phpcbf"
+			"phpcbf --ignore=./core/*,./skins/*,./extensions/*,./services/*,./tools/*,./dumps/*,./vendor/*,LocalSettings.php,config/MWCPrivate.php"
 		],
 		"phan": "phan -d . --long-progress-bar",
 		"phpcs": "phpcs -sp --cache --ignore=./core/*,./skins/*,./extensions/*,./services/*,./tools/*,./dumps/*,./vendor/*,LocalSettings.php,config/MWCPrivate.php"
