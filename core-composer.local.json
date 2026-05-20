@@ -14,6 +14,7 @@
 				"extensions/EventLogging/composer.json",
 				"extensions/Flow/composer.json",
 				"extensions/IPInfo/composer.json",
+				"extensions/Maps/composer.json",
 				"extensions/OATHAuth/composer.json",
 				"extensions/OAuth/composer.json",
 				"extensions/OOJSPlus/composer.json",
