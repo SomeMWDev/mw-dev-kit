@@ -8,6 +8,7 @@
 namespace MediaWikiConfig;
 
 use Exception;
+use LogicException;
 
 enum CodeMirrorVersion {
 	case V5;
@@ -247,6 +248,10 @@ trait MWCExtensions {
 		return $this->ext( 'Cite' );
 	}
 
+	public function cldr(): self {
+		return $this->ext( 'cldr' );
+	}
+
 	public function CodeEditor(): self {
 		return $this->ext( 'CodeEditor' );
 	}
@@ -306,6 +311,19 @@ trait MWCExtensions {
 	public function ConfirmEdit( ConfirmEditCaptcha $captcha ): self {
 		$captcha->applyConfiguration( $this );
 		return $this->ext( 'ConfirmEdit' );
+	}
+
+	public function ContactPage(
+		bool $requireCaptcha = false,
+	): self {
+		// TODO add support for $wgContactConfig
+		if ( $requireCaptcha ) {
+			if ( !array_key_exists( 'ConfirmEdit', $this->loadedExtensions ) ) {
+				throw new LogicException( 'ConfirmEdit must be loaded to require a captcha for ContactPage!' );
+			}
+			$this->setAssociativeConfArrayValue( 'wgCaptchaTriggers', 'contactpage', true );
+		}
+		return $this->ext( 'ContactPage' );
 	}
 
 	public function ContentTranslation( string $cxServer ): self {
