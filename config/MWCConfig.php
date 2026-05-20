@@ -6,8 +6,8 @@ use MediaWikiConfig\Farm\MWCFarm;
 
 trait MWCConfig {
 
-	public function allowExternalImages(): self {
-		return $this->conf( 'wgAllowExternalImages', true );
+	public function allowExternalImages( bool $doAllow = true ): self {
+		return $this->conf( 'wgAllowExternalImages', $doAllow );
 	}
 
 	public function allowFileExtensions( string ...$fileExtensions ): self {
@@ -16,8 +16,8 @@ trait MWCConfig {
 		} );
 	}
 
-	public function allowInterwikiEditing(): self {
-		return $this->grantPermission( 'sysop', 'interwiki' );
+	public function allowInterwikiEditing( bool $doAllow = true ): self {
+		return $this->grantPermission( 'sysop', 'interwiki', grant: $doAllow );
 	}
 
 	public function contentLanguage( string $code ): self {
@@ -33,18 +33,16 @@ trait MWCConfig {
 		return $this->conf( 'wgSQLMode', '' );
 	}
 
-	public function disableTempAccounts(): self {
-		return $this->modConf( 'wgAutoCreateTempUser', static function ( &$c ) {
-			$c['enabled'] = false;
-		} );
+	public function disableTempAccounts( bool $doDisable = true ): self {
+		return $this->setAssociativeConfArrayValue( 'wgAutoCreateTempUser', 'enabled', !$doDisable );
 	}
 
-	public function enableAnonUploads(): self {
-		return $this->grantPermission( '*', 'upload' );
+	public function enableAnonUploads( bool $doEnable = true ): self {
+		return $this->grantPermission( '*', 'upload', grant: $doEnable );
 	}
 
-	public function enableDebugToolbar(): self {
-		return $this->conf( 'wgDebugToolbar', true );
+	public function enableDebugToolbar( bool $doEnable = true ): self {
+		return $this->conf( 'wgDebugToolbar', $doEnable );
 	}
 
 	public function enableDjvuRendering(): self {
@@ -59,26 +57,30 @@ trait MWCConfig {
 			->conf( 'wgDjvuOutputExtension', 'jpg' );
 	}
 
-	public function enableExceptionListener(): self {
+	public function enableExceptionListener( bool $doEnable = true ): self {
 		return $this
 			->MWDevHelper()
-			->conf( 'wgMWDevHelperEnableExceptionListener', true );
+			->conf( 'wgMWDevHelperEnableExceptionListener', $doEnable );
 	}
 
-	public function enableInstantCommons(): self {
-		return $this->conf( 'wgUseInstantCommons', true );
+	public function enableInstantCommons( bool $doEnable = true ): self {
+		return $this->conf( 'wgUseInstantCommons', $doEnable );
 	}
 
-	public function enableNativeSVGRendering(): self {
-		return $this->conf( 'wgSVGNativeRendering', true );
+	public function enableMultiBlocks( bool $doEnable = true ): self {
+		return $this->conf( 'wgEnableMultiBlocks', $doEnable );
 	}
 
-	public function enableUploads(): self {
-		return $this->conf( 'wgEnableUploads', true );
+	public function enableNativeSVGRendering( bool $doEnable = true ): self {
+		return $this->conf( 'wgSVGNativeRendering', $doEnable );
 	}
 
-	public function forceDeferredUpdatesPostSend(): self {
-		return $this->conf( 'wgForceDeferredUpdatesPreSend', false );
+	public function enableUploads( bool $doEnable = true ): self {
+		return $this->conf( 'wgEnableUploads', $doEnable );
+	}
+
+	public function forceDeferredUpdatesPostSend( bool $doForce = true ): self {
+		return $this->conf( 'wgForceDeferredUpdatesPreSend', !$doForce );
 	}
 
 	public const UNIT_KIBIBYTE = 0;
@@ -88,6 +90,10 @@ trait MWCConfig {
 	public function setMaxArticleSize( int $amount, int $unit ): self {
 		$kibibytes = $amount * pow( 1024, $unit );
 		return $this->conf( 'wgMaxArticleSize', $kibibytes );
+	}
+
+	public function useCodexSpecialBlock( bool $doUse = true ): self {
+		return $this->conf( 'wgUseCodexSpecialBlock', $doUse );
 	}
 
 	public function setupFarm( MWCFarm $farm ): self {
