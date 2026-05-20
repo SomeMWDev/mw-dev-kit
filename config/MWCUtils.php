@@ -2,10 +2,12 @@
 
 namespace MediaWikiConfig;
 
+use MediaWiki\MainConfigNames;
+
 trait MWCUtils {
 
 	public function extensionFilePath( string $extensionName, string $file ): string {
-		return $this->getConf( 'wgExtensionDirectory' ) . "/$extensionName/$file";
+		return $this->getConf( $this->wg( MainConfigNames::ExtensionDirectory ) ) . "/$extensionName/$file";
 	}
 
 	public function coreFilePath( string $path ): string {
@@ -71,6 +73,10 @@ trait MWCUtils {
 		}
 
 		return $this;
+	}
+
+	public function wg( string $name ): string {
+		return "wg$name";
 	}
 
 }
