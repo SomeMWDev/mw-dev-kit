@@ -7,10 +7,25 @@ use MediaWikiConfig\Farm\MWCFarm;
 
 trait MWCConfig {
 
+	public function addNamespaceAlias( string $alias, int $namespace ): self {
+		return $this->setAssociativeConfArrayValue(
+			$this->wg( MainConfigNames::NamespaceAliases ),
+			str_replace( ' ', '_', $alias ),
+			$namespace,
+		);
+	}
+
 	public function addNoFollowDomainExceptions( string ...$exceptions ): self {
 		return $this->appendMultipleToIndexedConfArray(
 			$this->wg( MainConfigNames::NoFollowDomainExceptions ),
 			$exceptions,
+		);
+	}
+
+	public function addSpamRegexPatterns( string ...$patterns ): self {
+		return $this->appendMultipleToIndexedConfArray(
+			$this->wg( MainConfigNames::SpamRegex ),
+			$patterns,
 		);
 	}
 
@@ -31,16 +46,32 @@ trait MWCConfig {
 		return $this->grantPermission( 'sysop', 'interwiki', grant: $doAllow );
 	}
 
+	public function allowUserJs( bool $doAllow = true ): self {
+		return $this->conf( $this->wg( MainConfigNames::AllowUserJs ), $doAllow );
+	}
+
 	public function contentLanguage( string $code ): self {
 		return $this->conf( $this->wg( MainConfigNames::LanguageCode ), $code );
+	}
+
+	public function defaultSkin( string $symbolicName ): self {
+		return $this->conf( $this->wg( MainConfigNames::DefaultSkin ), $symbolicName );
 	}
 
 	public function disableHashedUploadDirectory( bool $doDisable = true ): self {
 		return $this->conf( $this->wg( MainConfigNames::HashedUploadDirectory ), !$doDisable );
 	}
 
-	public function defaultSkin( string $symbolicName ): self {
-		return $this->conf( $this->wg( MainConfigNames::DefaultSkin ), $symbolicName );
+	public function disableDevelopmentWarnings( bool $doDisable = true ): self {
+		return $this->conf( $this->wg( MainConfigNames::DevelopmentWarnings ), !$doDisable );
+	}
+
+	public function disableEmailAuthentication( bool $doDisable = true ): self {
+		return $this->conf( $this->wg( MainConfigNames::EmailAuthentication ), !$doDisable );
+	}
+
+	public function disableParserCache(): self {
+		return $this->setParserCacheExpiry( 0 );
 	}
 
 	public function disableSQLStrictMode(): self {
@@ -117,6 +148,10 @@ trait MWCConfig {
 	public function setMaxArticleSize( int $amount, int $unit ): self {
 		$kibibytes = $amount * pow( 1024, $unit );
 		return $this->conf( $this->wg( MainConfigNames::MaxArticleSize ), $kibibytes );
+	}
+
+	public function setParserCacheExpiry( int $seconds ): self {
+		return $this->conf( $this->wg( MainConfigNames::ParserCacheExpireTime ), $seconds );
 	}
 
 	public function useCodexSpecialBlock( bool $doUse = true ): self {

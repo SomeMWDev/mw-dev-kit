@@ -9,6 +9,7 @@ namespace MediaWikiConfig;
 
 use Exception;
 use LogicException;
+use MediaWiki\MainConfigNames;
 
 enum CodeMirrorVersion {
 	case V5;
@@ -90,9 +91,9 @@ trait MWCExtensions {
 		return $this->ext( 'AbuseFilter' );
 	}
 
-	public function AdvancedSearch( bool $useOpenSearch ): self {
+	public function AdvancedSearch(): self {
 		return $this
-			->CirrusSearch( $useOpenSearch )
+			->CirrusSearch()
 			->ext( 'AdvancedSearch' );
 	}
 
@@ -123,6 +124,10 @@ trait MWCExtensions {
 		return $this
 			->ext( 'ArticleFeedbackv5' )
 			->conf( 'wgArticleFeedbackv5Categories', $categories );
+	}
+
+	public function ArticleGuidance(): self {
+		return $this->ext( 'ArticleGuidance' );
 	}
 
 	public function ArticleSummaries(): self {
@@ -227,10 +232,10 @@ trait MWCExtensions {
 		return $this->ext( 'ChessBrowser' );
 	}
 
-	public function CirrusSearch( bool $useOpenSearch ): self {
+	public function CirrusSearch( ?bool $useOpenSearch = null ): self {
 		// note: this sets the default skin to vector 2022
 		require_once $this->extensionFilePath( 'CirrusSearch', 'tests/jenkins/FullyFeaturedConfig.php' );
-		if ( !defined( 'MW_PHPUNIT_TEST' ) ) {
+		if ( !defined( 'MW_PHPUNIT_TEST' ) && $useOpenSearch !== null ) {
 			$this->conf( 'wgCirrusSearchServers', [
 				[
 					'transport' => \CirrusSearch\Elastica\DeprecationLoggedHttp::class,
@@ -248,8 +253,30 @@ trait MWCExtensions {
 		return $this->ext( 'Cite' );
 	}
 
+	public function Citoid( bool $optionalDependencies = false ): self {
+		if ( $optionalDependencies ) {
+			$this
+				->Scribunto()
+				->TemplateStyles()
+				->ParserFunctions();
+		}
+		return $this
+			->VisualEditor()
+			->TemplateData()
+			->Cite()
+			->ext( 'Citoid' );
+	}
+
 	public function cldr(): self {
 		return $this->ext( 'cldr' );
+	}
+
+	public function CloseWikis( string $centralDB ): self {
+		return $this
+			->ext( 'CloseWikis' )
+			->conf( 'wgCloseWikisDatabase', $centralDB );
+		// After https://gerrit.wikimedia.org/r/c/mediawiki/extensions/CloseWikis/+/1265428:
+		//  ->virtualDomainMapping( 'virtual-closewikis', 'mainwiki' );
 	}
 
 	public function CodeEditor(): self {
@@ -264,6 +291,10 @@ trait MWCExtensions {
 		return $this
 			->ext( 'CodeMirror' )
 			->defaultUserOption( 'usecodemirror', true );
+	}
+
+	public function Collection(): self {
+		return $this->ext( 'Collection' );
 	}
 
 	public function ColorizerToolVe(): self {
@@ -308,9 +339,16 @@ trait MWCExtensions {
 			->revokePermission( '*', 'createaccount' );
 	}
 
-	public function ConfirmEdit( ConfirmEditCaptcha $captcha ): self {
+	public function ConfirmEdit(
+		ConfirmEditCaptcha $captcha,
+		array $additionalCaptchaTriggers = []
+	): self {
 		$captcha->applyConfiguration( $this );
-		return $this->ext( 'ConfirmEdit' );
+		foreach ( $additionalCaptchaTriggers as $trigger ) {
+			$this->setAssociativeConfArrayValue( 'wgCaptchaTriggers', $trigger, true );
+		}
+		return $this
+			->ext( 'ConfirmEdit' );
 	}
 
 	public function ContactPage(
@@ -434,12 +472,19 @@ trait MWCExtensions {
 		return $this->ext( 'EntitySchema' );
 	}
 
-	public function EventLogging(): self {
-		return $this->ext( 'EventLogging' );
+	public function EventLogging( ?string $dbName = null ): self {
+		$dbName ??= $this->getConf( $this->wg( MainConfigNames::DBname ) );
+		return $this
+			->ext( 'EventLogging' )
+			->conf( 'wgEventLoggingDBname', $dbName );
 	}
 
 	public function ExternalData(): self {
 		return $this->ext( 'ExternalData' );
+	}
+
+	public function FileImporter(): self {
+		return $this->ext( 'FileImporter' );
 	}
 
 	public function FlaggedRevs(): self {
@@ -460,6 +505,10 @@ trait MWCExtensions {
 
 	public function Gadgets(): self {
 		return $this->ext( 'Gadgets' );
+	}
+
+	public function GeoData(): self {
+		return $this->ext( 'GeoData' );
 	}
 
 	public function GlobalUserPage( string $apiUrl ): self {
@@ -489,7 +538,7 @@ trait MWCExtensions {
 		return $this
 			->Vector()
 			->MinervaNeue()
-			->CirrusSearch( true )
+			->CirrusSearch()
 			->Echo_()
 			->Elastica()
 			->PageViewInfo()
@@ -534,6 +583,12 @@ trait MWCExtensions {
 
 	public function ImgTag(): self {
 		return $this->ext( 'ImgTag' );
+	}
+
+	public function Inbox(): self {
+		return $this
+			->ext( 'Inbox' )
+			->conf( 'wgInboxEnabled', true );
 	}
 
 	public function InputBox(): self {
@@ -592,7 +647,10 @@ trait MWCExtensions {
 		return $this->ext( 'Linter' );
 	}
 
-	public function LiquidThreads(): self {
+	public function LiquidThreads( ?bool $allowEmbedding = null ): self {
+		if ( $allowEmbedding !== null ) {
+			$this->conf( 'wgLiquidThreadsAllowEmbedding', $allowEmbedding );
+		}
 		return $this->ext( 'LiquidThreads' );
 	}
 
@@ -606,6 +664,13 @@ trait MWCExtensions {
 
 	public function LoginNotify(): self {
 		return $this->ext( 'LoginNotify' );
+	}
+
+	public function LookupUser( array|string|null $grantRightTo = null ): self {
+		if ( $grantRightTo !== null ) {
+			$this->grantPermission( $grantRightTo, 'lookupuser' );
+		}
+		return $this->ext( 'LookupUser' );
 	}
 
 	public function Loops(): self {
@@ -757,10 +822,11 @@ trait MWCExtensions {
 			->conf( 'wgPageViewInfoWikimediaDomain', 'en.wikipedia.org' );
 	}
 
-	public function ParserFunctions( bool $enableStringFunctions = false ): self {
-		return $this
-			->ext( 'ParserFunctions' )
-			->conf( 'wgPFEnableStringFunctions', $enableStringFunctions );
+	public function ParserFunctions( ?bool $enableStringFunctions = null ): self {
+		if ( $enableStringFunctions !== null ) {
+			$this->conf( 'wgPFEnableStringFunctions', $enableStringFunctions )
+		}
+		return $this->ext( 'ParserFunctions' );
 	}
 
 	public function ParserMigration(
@@ -854,6 +920,14 @@ trait MWCExtensions {
 		return $this->ext( 'RatePage' );
 	}
 
+	public function ReassignEdits(): self {
+		return $this->ext( 'ReassignEdits' );
+	}
+
+	public function RedirectManager(): self {
+		return $this->ext( 'RedirectManager' );
+	}
+
 	public function RefreshSpecial(): self {
 		return $this->ext( 'RefreshSpecial' );
 	}
@@ -900,6 +974,13 @@ trait MWCExtensions {
 
 	public function Rules(): self {
 		return $this->ext( 'Rules' );
+	}
+
+	public function Score( ?bool $enableSafeMode = null ): self {
+		if ( $enableSafeMode !== null ) {
+			$this->conf( 'wgScoreSafeMode', $enableSafeMode );
+		}
+		return $this->ext( 'Score' );
 	}
 
 	public function Screenplay(): self {
@@ -1033,6 +1114,13 @@ trait MWCExtensions {
 		return $this->ext( 'Springboard' );
 	}
 
+	public function Sudo( array|string|null $grantTo = null ): self {
+		if ( $grantTo !== null ) {
+			$this->grantPermission( $grantTo, 'sudo' );
+		}
+		return $this->ext( 'Sudo' );
+	}
+
 	public function SyntaxHighlight_GeSHi(): self {
 		return $this->ext( 'SyntaxHighlight_GeSHi' );
 	}
@@ -1087,6 +1175,10 @@ trait MWCExtensions {
 
 	public function TimedMediaHandler(): self {
 		return $this->ext( 'TimedMediaHandler' );
+	}
+
+	public function timeline(): self {
+		return $this->ext( 'Timeline' );
 	}
 
 	public function TitleBlacklist(): self {
@@ -1188,6 +1280,10 @@ trait MWCExtensions {
 
 	public function wikihiero(): self {
 		return $this->ext( 'wikihiero' );
+	}
+
+	public function WikimediaCustomizations(): self {
+		return $this->ext( 'WikimediaCustomizations' );
 	}
 
 	public function WikimediaMessages(): self {
