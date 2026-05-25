@@ -1178,7 +1178,7 @@ trait MWCExtensions {
 	}
 
 	public function timeline(): self {
-		return $this->ext( 'Timeline' );
+		return $this->ext( 'timeline' );
 	}
 
 	public function TitleBlacklist(): self {
