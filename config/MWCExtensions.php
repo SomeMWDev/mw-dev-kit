@@ -422,6 +422,13 @@ trait MWCExtensions {
 		return $this->ext( 'Diagrams' );
 	}
 
+	public function DisableAccount( array|string|null $grantTo = null ): self {
+		if ( $grantTo !== null ) {
+			$this->grantPermission( $grantTo, 'disableaccount' );
+		}
+		return $this->ext( 'DisableAccount' );
+	}
+
 	public function DiscordNotifications( array $additionalWebhookUrls = [] ): self {
 		return $this
 			->ext( 'DiscordNotifications' )
@@ -693,6 +700,10 @@ trait MWCExtensions {
 			->grantPermission( 'sysop', 'masseditregex' );
 	}
 
+	public function MassMessage(): self {
+		return $this->ext( 'MassMessage' );
+	}
+
 	public function Math(): self {
 		return $this->ext( 'Math' );
 	}
@@ -856,6 +867,13 @@ trait MWCExtensions {
 		return $this
 			->SocialProfile()
 			->ext( 'PollNY' );
+	}
+
+	public function Popups(): self {
+		return $this
+			->TextExtracts()
+			->PageImages()
+			->ext( 'Popups' );
 	}
 
 	public function Preloader( string $mainSource = 'Template:Boilerplate' ): self {
