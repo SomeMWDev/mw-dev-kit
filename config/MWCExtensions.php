@@ -148,6 +148,10 @@ trait MWCExtensions {
 		return $this->ext( 'AutoCreatePage' );
 	}
 
+	public function AutoModerator(): self {
+		return $this->ext( 'AutoModerator' );
+	}
+
 	public function BetaFeatures(): self {
 		return $this->ext( 'BetaFeatures' );
 	}
@@ -916,6 +920,10 @@ trait MWCExtensions {
 			->conf( 'wgUseQuickInstantCommons', $apiUrl === null );
 	}
 
+	public function QuickSurveys(): self {
+		return $this->ext( 'QuickSurveys' );
+	}
+
 	public function Quiz(): self {
 		return $this->ext( 'Quiz' );
 	}
@@ -936,6 +944,18 @@ trait MWCExtensions {
 
 	public function RatePage(): self {
 		return $this->ext( 'RatePage' );
+	}
+
+	public function ReadingLists( string $centralDB, ?bool $enableQuickSurvey ): self {
+		if ( $enableQuickSurvey !== null ) {
+			$this->conf( 'wgReadingListsEnableBetaQuickSurvey', $enableQuickSurvey );
+			if ( $enableQuickSurvey ) {
+				$this->QuickSurveys();
+			}
+		}
+		return $this
+			->ext( 'ReadingLists' )
+			->virtualDomainMapping( 'virtual-readinglists', $centralDB );
 	}
 
 	public function ReassignEdits(): self {
