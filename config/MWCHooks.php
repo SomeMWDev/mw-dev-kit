@@ -31,7 +31,7 @@ trait MWCHooks {
 			/** @inheritDoc */
 			public function onParserFirstCallInit( $parser ) {
 				MediaWikiServices::getInstance()
-					->getContentLanguage()->mMagicExtensions[$this->name] = [$this->name, $this->name];
+					->getContentLanguage()->mMagicExtensions[$this->name] = [ $this->name, $this->name ];
 
 				$parser->setFunctionHook( $this->name, $this->callback );
 			}
