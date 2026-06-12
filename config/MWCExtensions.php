@@ -321,6 +321,10 @@ trait MWCExtensions {
 			->conf( 'wgCommentStreamsAllowedNamespaces', $allowedNamespaces );
 	}
 
+	public function CommonsMetadata(): self {
+		return $this->ext( 'CommonsMetadata' );
+	}
+
 	public function CommunityConfiguration(): self {
 		return $this->ext( 'CommunityConfiguration' );
 	}
@@ -596,6 +600,10 @@ trait MWCExtensions {
 		return $this->ext( 'ImgTag' );
 	}
 
+	public function ImportFreeImages(): self {
+		return $this->ext( 'ImportFreeImages' );
+	}
+
 	public function Inbox(): self {
 		return $this
 			->ext( 'Inbox' )
@@ -604,6 +612,10 @@ trait MWCExtensions {
 
 	public function InputBox(): self {
 		return $this->ext( 'InputBox' );
+	}
+
+	public function intersection(): self {
+		return $this->ext( 'intersection' );
 	}
 
 	public function InterwikiDispatcher(): self {
@@ -1087,6 +1099,10 @@ trait MWCExtensions {
 
 	public function ShortDescription(): self {
 		return $this->ext( 'ShortDescription' );
+	}
+
+	public function SimpleBatchUpload(): self {
+		return $this->ext( 'SimpleBatchUpload' );
 	}
 
 	public function SimpleBlogPage(): self {
