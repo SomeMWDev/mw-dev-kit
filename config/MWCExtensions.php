@@ -514,6 +514,17 @@ trait MWCExtensions {
 		return $this->ext( 'FloatingUI' );
 	}
 
+	public function Flow(): self {
+		$this->setAssociativeConfArrayValue( 'wgNamespaceContentModels', NS_TALK, 'flow-board' );
+		$this->setAssociativeConfArrayValue( 'wgNamespaceContentModels', NS_USER_TALK, 'flow-board' );
+		$this->setAssociativeConfArrayValue( 'wgNamespacesWithSubpages', NS_TALK, true );
+		$this->setAssociativeConfArrayValue( 'wgNamespacesWithSubpages', NS_USER_TALK, true );
+
+		$this->grantPermission( '*', 'flow-create-board' );
+
+		return $this->ext( 'Flow' );
+	}
+
 	public function FontAwesome(): self {
 		return $this->ext( 'FontAwesome' );
 	}
