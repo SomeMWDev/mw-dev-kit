@@ -1215,8 +1215,12 @@ trait MWCExtensions {
 		return $this->ext( 'TimedMediaHandler' );
 	}
 
-	public function timeline(): self {
-		return $this->ext( 'timeline' );
+	public function timeline( bool $useInternalFont = false ): self {
+		if ( $useInternalFont ) {
+			$this->conf( 'wgTimelineFontFile', 'ascii' );
+		}
+		return $this
+			->ext( 'timeline' );
 	}
 
 	public function TitleBlacklist(): self {
