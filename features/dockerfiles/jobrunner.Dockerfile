@@ -1,4 +1,4 @@
-FROM docker-registry.wikimedia.org/dev/bookworm-php83-jobrunner:1.0.0-s1 as build
+FROM docker-registry.wikimedia.org/dev/bookworm-php83-jobrunner:1.0.0-s1 AS build
 
 # Compile LuaSandbox from source
 WORKDIR /src
@@ -8,11 +8,12 @@ RUN cd luasandbox && phpize && ./configure && make
 
 FROM docker-registry.wikimedia.org/dev/bookworm-php83-jobrunner:1.0.0-s1
 
-# Install LuaSandbox
-RUN apt update && apt install liblua5.1-0 -y
+# Install LuaSandbox and Excimer
+RUN apt update && apt install liblua5.1-0 php8.3-excimer -y
 COPY --from=build /src/luasandbox/modules/luasandbox.so /usr/lib/php/20230831/luasandbox.so
 RUN echo 'extension=luasandbox.so' > /etc/php/8.3/mods-available/luasandbox.ini && phpenmod luasandbox
 
-# Install Excimer
-RUN apt-get update && \
-    apt-get install php8.3-excimer
+# Clean up to reduce the image size
+RUN apt clean autoclean && \
+    apt autoremove --yes && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/
