@@ -1,0 +1,4 @@
+{
+	"ignore": [ "./dc.sh" ],
+	"ignoreDirectories": [ "core", "extensions", "skins", "services", "tools", "dumps", "vendor" ]
+}
