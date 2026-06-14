@@ -17,3 +17,5 @@ RUN echo 'extension=luasandbox.so' > /etc/php/8.3/mods-available/luasandbox.ini 
 RUN apt clean autoclean && \
     apt autoremove --yes && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/
+
+ENTRYPOINT ["php", "/srv/mediawiki-config/Farm/Scripts/jobrunner.php"]

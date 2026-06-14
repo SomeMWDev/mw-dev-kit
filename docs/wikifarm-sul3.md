@@ -11,6 +11,8 @@ services:
     build:
       context: .
       dockerfile: features/dockerfiles/jobrunner.Dockerfile
+     # An image name is somehow required here so build caching works
+    image: mediawiki-jobrunner-farm:latest
   mediawiki-web:
     build:
       dockerfile: features/dockerfiles/apache.Dockerfile
