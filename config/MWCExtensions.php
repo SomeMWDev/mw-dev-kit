@@ -818,8 +818,7 @@ trait MWCExtensions {
 	public function NukeDPL(): self {
 		return $this
 			// not a requirement in extension.json, so load manually
-			// TODO use DPL4?
-			->DynamicPageList3()
+			->DynamicPageList4()
 			->NukeDPL();
 	}
 
