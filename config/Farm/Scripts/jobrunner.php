@@ -55,6 +55,8 @@ foreach ( $farmConfig->wikis as $db => $wiki ) {
 	} else {
 		echo "Failed to start runner for $db.\n";
 	}
+	// Sleep so the jobrunners don't all run at the same time
+	usleep( 500 * 1000 );
 }
 
 while ( $processes ) {
