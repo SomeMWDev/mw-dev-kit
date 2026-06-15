@@ -12,6 +12,6 @@ jobs:
       - name: Composer install
         uses: php-actions/composer@v6
         with:
-          php_version: '8.4'
+          php_version: '8.3'
       - name: Lint PHP code
         run: composer run test
