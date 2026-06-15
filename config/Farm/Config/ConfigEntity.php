@@ -3,6 +3,7 @@
 namespace MediaWikiConfig\Farm\Config;
 
 // This can extend JsonSerializable at some point if we want to modify configs
+
 interface ConfigEntity {
 
 	/**

@@ -24,7 +24,7 @@ class FarmConfig implements ConfigEntity {
 		] );
 
 		$wikis = array_map(
-			fn ( $wiki ) => WikiSpec::deserialize( $wiki, $default ),
+			static fn ( $wiki ) => WikiSpec::deserialize( $wiki, $default ),
 			$data['wikis'] ?? ConfigException::keyRequired( __CLASS__, 'wikis' )
 		);
 

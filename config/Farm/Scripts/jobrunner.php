@@ -39,7 +39,7 @@ foreach ( $farmConfig->wikis as $db => $wiki ) {
 
 	echo "Starting runner for $db.\n";
 
-
+	// phpcs:ignore MediaWiki.Usage.ForbiddenFunctions.proc_open
 	$proc = proc_open(
 		$cmd,
 		[
@@ -50,7 +50,7 @@ foreach ( $farmConfig->wikis as $db => $wiki ) {
 		$pipes
 	);
 
-	if ( is_resource( $proc ) ) {
+	if ( $proc ) {
 		$processes[$db] = $proc;
 	} else {
 		echo "Failed to start runner for $db.\n";
