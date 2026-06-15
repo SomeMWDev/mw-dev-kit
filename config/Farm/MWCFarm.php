@@ -3,6 +3,7 @@
 namespace MediaWikiConfig\Farm;
 
 use MediaWiki\Config\SiteConfiguration;
+use MediaWikiConfig\Farm\Config\FarmConfigLoader;
 use MediaWikiConfig\MediaWikiConfig;
 
 class MWCFarm {
@@ -12,6 +13,28 @@ class MWCFarm {
 	// ToDo support wgSharedDB
 
 	private readonly IFarmUserManagement $userManagement;
+
+	public static function fromFarmConfig( int $userManagementType, array $settings = [] ): self {
+		require_once '/srv/mediawiki-config/Farm/Config/bootstrap.php';
+		$config = FarmConfigLoader::getInstance()->getConfig();
+
+		$wikis = [];
+		$defaultSettings = [];
+
+		foreach ( $config->wikis as $db => $wiki ) {
+			$wikis[$wiki->subdomain] = $db;
+			$defaultSettings['wgSitename'][$db] = $wiki->name ?? $db;
+			$defaultSettings['wgLanguageCode'][$db] = $wiki->language;
+		}
+
+		return new self(
+			wikis: $wikis,
+			settings: array_merge_recursive( $settings, $defaultSettings ),
+			centralWiki: $config->centralWiki,
+			// TODO move to farm config
+			userManagementType: $userManagementType,
+		);
+	}
 
 	/**
 	 * @param array<string, string> $wikis

@@ -18,7 +18,10 @@ class FarmConfig implements ConfigEntity {
 
 	/** @inheritDoc */
 	public static function deserialize( array $data, $default = null ): static {
-		$defaults = WikiSpec::deserialize( $data['defaults'] ?? [] );
+		$defaults = WikiSpec::deserialize( ( $data['defaults'] ?? [] ) + [
+			// Unused
+			'subdomain' => '',
+		] );
 
 		$wikis = array_map(
 			fn ( $wiki ) => WikiSpec::deserialize( $wiki, $default ),

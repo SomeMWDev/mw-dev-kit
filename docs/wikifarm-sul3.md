@@ -19,11 +19,15 @@ services:
       context: .
 ````
 2. In the `config/` directory, create `farm-config.json` to configure your farm. Example:
-```
+```json
 {
 	"wikis": {
-		"mainwiki": {},
-		"altwiki": {}
+		"mainwiki": {
+			"subdomain": "main"
+		},
+		"altwiki": {
+			"subdomain": "alt"
+		}
 	},
 	"defaults": {},
 	"centralWiki": "mainwiki"

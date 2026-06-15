@@ -20,6 +20,10 @@ sleep( 20 );
 $processes = [];
 
 foreach ( $farmConfig->wikis as $db => $wiki ) {
+	if ( !$wiki->jobrunnerSpec->active ) {
+		return;
+	}
+
 	$interval = $wiki->jobrunnerSpec->intervalSeconds;
 	if ( $interval < 1 ) {
 		trigger_error( "Invalid interval '$interval' for $db!", E_USER_WARNING );
