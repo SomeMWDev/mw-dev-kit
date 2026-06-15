@@ -4,6 +4,7 @@ namespace MediaWikiConfig\Farm;
 
 use MediaWiki\Config\SiteConfiguration;
 use MediaWikiConfig\Farm\Config\FarmConfigLoader;
+use MediaWikiConfig\Farm\Config\WikiSpec;
 use MediaWikiConfig\MediaWikiConfig;
 
 class MWCFarm {
@@ -18,17 +19,15 @@ class MWCFarm {
 		require_once '/srv/mediawiki-config/Farm/Config/bootstrap.php';
 		$config = FarmConfigLoader::getInstance()->getConfig();
 
-		$wikis = [];
 		$defaultSettings = [];
 
 		foreach ( $config->wikis as $db => $wiki ) {
-			$wikis[$wiki->subdomain] = $db;
 			$defaultSettings['wgSitename'][$db] = $wiki->name ?? $db;
 			$defaultSettings['wgLanguageCode'][$db] = $wiki->language;
 		}
 
 		return new self(
-			wikis: $wikis,
+			wikis: $config->wikis,
 			settings: array_merge_recursive( $settings, $defaultSettings ),
 			centralWiki: $config->centralWiki,
 			// TODO move to farm config
@@ -37,12 +36,12 @@ class MWCFarm {
 	}
 
 	/**
-	 * @param array<string, string> $wikis
+	 * @param array<string, WikiSpec> $wikis
 	 * @param array $settings
 	 * @param string $centralWiki The central wiki (will be used for maintenance scripts by default)
 	 * @param int $userManagementType One of the USER_MANAGEMENT_ constants
 	 */
-	public function __construct(
+	private function __construct(
 		private readonly array $wikis,
 		private array $settings,
 		private readonly string $centralWiki,
@@ -62,16 +61,6 @@ class MWCFarm {
 	}
 
 	public function apply( MediaWikiConfig $mwc ): void {
-		$port = $mwc->env( 'MW_DOCKER_PORT' );
-		$serverVals = [];
-		foreach ( $this->wikis as $subdomain => $dbname ) {
-			$serverVals[$dbname] = "http://$subdomain.localhost:$port";
-		}
-		$this->settings['wgServer'] = $serverVals;
-		$this->settings['wgArticlePath'] = [
-			'default' => $mwc->getConf( 'wgArticlePath' ),
-		];
-
 		if ( defined( 'MW_DB' ) ) {
 			$wikiId = MW_DB;
 		} elseif ( MW_ENTRY_POINT === 'cli' ) {
@@ -80,16 +69,31 @@ class MWCFarm {
 			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
 			$wikiId = $this->userManagement->overrideWikiExists( $this, $mwc, $subdomain );
 			if ( $wikiId === null ) {
-				if ( !array_key_exists( $subdomain, $this->wikis ) ) {
+				$wikiId = array_find_key( $this->wikis, static fn ( $w ) => $w->subdomain === $subdomain );
+				if ( $wikiId === null ) {
 					$this->showWikiMap();
-				} else {
-					$wikiId = $this->wikis[$subdomain];
 				}
 			}
 		}
 
+		$port = $mwc->env( 'MW_DOCKER_PORT' );
+		$serverVals = array_map(
+			static fn ( $wiki ) => "http://$wiki->subdomain.localhost:$port",
+			$this->wikis
+		);
+
+		if ( $this->wikis[$wikiId]->standalone ) {
+			$mwc->conf( 'wgServer', $serverVals[$wikiId] );
+			return;
+		}
+
+		$this->settings['wgServer'] = $serverVals;
+		$this->settings['wgArticlePath'] = [
+			'default' => $mwc->getConf( 'wgArticlePath' ),
+		];
+
 		$siteConfiguration = new SiteConfiguration();
-		$siteConfiguration->wikis = array_values( array_unique( $this->wikis ) );
+		$siteConfiguration->wikis = array_keys( $this->wikis );
 		$mwc
 			->conf( 'wgLocalDatabases', $siteConfiguration->wikis )
 			->conf( 'wgDBname', $wikiId );
@@ -112,7 +116,7 @@ class MWCFarm {
 	}
 
 	/**
-	 * @return array<string, string>
+	 * @return array<string, WikiSpec>
 	 */
 	public function getWikis(): array {
 		return $this->wikis;

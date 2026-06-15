@@ -11,15 +11,15 @@ if ( MW_ENTRY_POINT !== 'cli' ) {
 	// TODO bad
 	$port = getenv( 'MW_DOCKER_PORT' );
 	$path = parse_url( $_SERVER['REQUEST_URI'] ?? '|', PHP_URL_PATH ) ?? '';
-	foreach ( $wgMwcFarm->getWikis() as $subdomain => $dbName ) {
+	foreach ( $wgMwcFarm->getWikis() as $dbName => $wiki ) {
 		$link = Html::element(
 			'a',
 			[
 				// TODO un-hardcode
-				'href' => "http://$subdomain.localhost:$port$path",
+				'href' => "http://$wiki->subdomain.localhost:$port$path",
 				'class' => 'button',
 			],
-			$dbName,
+			$wiki->name ?? $dbName,
 		);
 		$wikiLinks .= Html::rawElement( 'li', [], $link );
 	}
