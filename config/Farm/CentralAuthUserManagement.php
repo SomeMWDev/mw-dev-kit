@@ -33,6 +33,7 @@ class CentralAuthUserManagement implements IFarmUserManagement {
 			->conf( 'wgCentralAuthSharedDomainCallback', fn ( $dbname ) => $this->getAuthDomain( $mwc, $dbname ) )
 			->conf( 'wgCentralAuthEnableSul3', true )
 			->conf( 'wgCentralAuthRestrictSharedDomain', true )
+			->conf( 'wgCentralAuthCookies', true )
 			->conf( 'wgServer', WebRequest::detectServer( true ) )
 			->cloneConf( 'wgCanonicalServer', 'wgServer' );
 
