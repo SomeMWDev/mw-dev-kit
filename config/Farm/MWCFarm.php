@@ -6,6 +6,7 @@ use MediaWiki\Config\SiteConfiguration;
 use MediaWikiConfig\Farm\Config\FarmConfigLoader;
 use MediaWikiConfig\Farm\Config\WikiSpec;
 use MediaWikiConfig\MediaWikiConfig;
+use Wikimedia\FileBackend\FSFile\TempFSFile;
 
 class MWCFarm {
 
@@ -81,6 +82,12 @@ class MWCFarm {
 			static fn ( $wiki ) => "http://$wiki->subdomain.localhost:$port",
 			$this->wikis
 		);
+
+		$cacheDirectory = TempFSFile::getUsableTempDirectory() . DIRECTORY_SEPARATOR . rawurlencode( $wikiId );
+		// We set the option here already so it applies to standalone wikis
+		// In theory, this should be handled by DevelopmentSettings.php, but it's included in Defaults.php
+		// before MWC is initialized.
+		$mwc->conf( 'wgCacheDirectory', $cacheDirectory );
 
 		if ( $this->wikis[$wikiId]->standalone ) {
 			$mwc->conf( 'wgServer', $serverVals[$wikiId] );
