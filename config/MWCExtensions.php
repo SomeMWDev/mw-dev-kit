@@ -837,6 +837,11 @@ trait MWCExtensions {
 		return $this->ext( 'OrphanedTalkPages' );
 	}
 
+	public function PagedTiffHandler(): self {
+		return $this->ext( 'PagedTiffHandler' )
+			->allowFileExtensions( 'tiff' );
+	}
+
 	public function PageForms(): self {
 		return $this->ext( 'PageForms' );
 	}
