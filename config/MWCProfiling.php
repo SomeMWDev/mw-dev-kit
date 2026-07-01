@@ -60,6 +60,7 @@ trait MWCProfiling {
 	 * @param string $token
 	 * @param string $environment Usually 'prod' or 'dev'. Random requests will only be sampled on 'prod'
 	 * @param float $sampleRate
+	 * @param float $period The period in seconds
 	 * @param string|null $requiredParameter
 	 * @param string|null $publicEndpoint The endpoint used for generating the profile URLs, or null to default to
 	 * $endpoint
@@ -69,6 +70,7 @@ trait MWCProfiling {
 		string $token,
 		string $environment,
 		float $sampleRate = 0.01,
+		float $period = 0.001,
 		?string $requiredParameter = 'forceflame',
 		?string $publicEndpoint = null
 	): self {
@@ -120,6 +122,7 @@ JS;
 				$token,
 				$environment,
 				$forced,
+				$period
 			);
 		}
 		return $this;
@@ -131,6 +134,7 @@ JS;
 		string $token,
 		string $environment,
 		bool $forced,
+		float $period,
 	): void {
 		$id = bin2hex( random_bytes( 16 ) );
 
@@ -138,7 +142,7 @@ JS;
 		$parserReport = null;
 
 		$excimer = new ExcimerProfiler();
-		$excimer->setPeriod( 0.001 );
+		$excimer->setPeriod( $period );
 		$excimer->setEventType( EXCIMER_REAL );
 		$excimer->start();
 		$callable = static function () use ( $endpoint, $environment, $token, $excimer, $id, $forced, &$parserReport ) {
