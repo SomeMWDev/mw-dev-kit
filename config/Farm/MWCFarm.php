@@ -90,7 +90,8 @@ class MWCFarm {
 		$mwc->conf( 'wgCacheDirectory', $cacheDirectory );
 
 		if ( $this->wikis[$wikiId]->standalone ) {
-			$mwc->conf( 'wgServer', $serverVals[$wikiId] );
+			$mwc->conf( 'wgServer', $serverVals[$wikiId] )
+				->conf( 'wgDBname', $wikiId );
 			return;
 		}
 
