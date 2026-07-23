@@ -88,6 +88,13 @@ trait MWCExtensions {
 	}
 
 	public function AbuseFilter(): self {
+		$farm = $this->getFarm();
+		if ( $farm ) {
+			$this->conf( 'wgAbuseFilterCentralDB', $farm->getCentralWiki() );
+			if ( $this->getConf( 'wgDBname' ) === $this->getConf( 'wgAbuseFilterCentralDB' ) ) {
+				$this->conf( 'wgAbuseFilterIsCentral', true );
+			}
+		}
 		return $this->ext( 'AbuseFilter' );
 	}
 
