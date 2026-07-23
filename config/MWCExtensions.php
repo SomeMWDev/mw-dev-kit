@@ -137,12 +137,6 @@ trait MWCExtensions {
 		return $this->ext( 'ArticleGuidance' );
 	}
 
-	public function ArticleSummaries(): self {
-		return $this
-			->MinervaNeue( true )
-			->ext( 'ArticleSummaries' );
-	}
-
 	public function AuthorProtect(): self {
 		return $this->ext( 'AuthorProtect' );
 	}
