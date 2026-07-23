@@ -152,8 +152,20 @@ trait MWCExtensions {
 		return $this->ext( 'AutoModerator' );
 	}
 
+	public function Babel(): self {
+		$farm = $this->getFarm();
+		if ( $farm ) {
+			$this->conf( 'wgBabelCentralDb', $farm->getCentralWiki() );
+		}
+		return $this->ext( 'Babel' );
+	}
+
 	public function BetaFeatures(): self {
 		return $this->ext( 'BetaFeatures' );
+	}
+
+	public function BibManager(): self {
+		return $this->ext( 'BibManager' );
 	}
 
 	public function BlogPage(): self {
