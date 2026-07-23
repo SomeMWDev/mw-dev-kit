@@ -823,6 +823,14 @@ trait MWCExtensions {
 	}
 
 	public function OAuth(): self {
+		$farm = $this->getFarm();
+		if ( $farm ) {
+			$this->conf( 'wgMWOAuthCentralWiki', $farm->getCentralWiki() )
+				->virtualDomainMapping( 'virtual-oauth', $farm->getCentralWiki() );
+		} else {
+			$this->conf( 'wgMWOAuthSharedUserIDs', true )
+				->conf( 'wgMWOAuthSharedUserSource', 'local' );
+		}
 		return $this->ext( 'OAuth' );
 	}
 
