@@ -66,6 +66,9 @@ class MWCFarm {
 			$wikiId = MW_DB;
 		} elseif ( MW_ENTRY_POINT === 'cli' ) {
 			$wikiId = $this->centralWiki;
+		} elseif ( $_SERVER['SERVER_NAME'] === 'mediawiki-web' ) {
+			// TODO Hack to make GlobalUserPage work
+			$wikiId = $this->getCentralWiki();
 		} else {
 			$subdomain = explode( '.', $_SERVER['SERVER_NAME'] )[0];
 			$wikiId = $this->userManagement->overrideWikiExists( $this, $mwc, $subdomain );

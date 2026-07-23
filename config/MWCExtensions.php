@@ -537,7 +537,7 @@ trait MWCExtensions {
 		return $this->ext( 'GeoData' );
 	}
 
-	public function GlobalUserPage( string $apiUrl ): self {
+	public function GlobalUserPage( string $apiUrl = 'http://mediawiki-web:8080/w/api.php' ): self {
 		$farm = $this->getFarm();
 		if ( $farm ) {
 			$this->conf( 'wgGlobalUserPageDBname', $farm->getCentralWiki() );
