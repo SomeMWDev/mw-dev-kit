@@ -2,10 +2,12 @@
 
 use MediaWikiConfig\MediaWikiConfig;
 
+// phpcs:ignore MediaWiki.Files.ClassMatchesFilename.NotMatch
 enum Constants {
 	case CENTRAL_WIKI;
 }
 
+// phpcs:ignore Generic.Files.OneObjectStructurePerFile.MultipleFound
 class Extension {
 
 	/**
@@ -41,7 +43,7 @@ class Extension {
 			} else {
 				$GLOBALS[$k] = $v;
 			}
- 		}
+		}
 		if ( $this->callback ) {
 			( $this->callback )( $config );
 		}
