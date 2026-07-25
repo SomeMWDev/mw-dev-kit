@@ -1,44 +1,44 @@
 services:
   mediawiki:
     image: docker-registry.wikimedia.org/dev/bookworm-php83-fpm:1.0.0-s4
-    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+    user: "${MW_DOCKER_UID:-config/.env}:${MW_DOCKER_GID:-config/.env}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - "./core:${MW_INSTALL_PATH}:cached"
+      - "./core:${MW_INSTALL_PATH:-config/.env}:cached"
       - "./config:/srv/mediawiki-config:cached"
-      - "./extensions:${MW_INSTALL_PATH}/extensions"
-      - "./skins:${MW_INSTALL_PATH}/skins"
-      - "./services:${MW_INSTALL_PATH}/services"
-      - "./tools:${MW_INSTALL_PATH}/tools"
+      - "./extensions:${MW_INSTALL_PATH:-config/.env}/extensions"
+      - "./skins:${MW_INSTALL_PATH:-config/.env}/skins"
+      - "./services:${MW_INSTALL_PATH:-config/.env}/services"
+      - "./tools:${MW_INSTALL_PATH:-config/.env}/tools"
     env_file: config/.env
     networks: [ mw ]
     environment:
-      HISTFILE: ${MW_INSTALL_PATH}/cache/.bash_history
+      HISTFILE: ${MW_INSTALL_PATH:-config/.env}/cache/.bash_history
   mediawiki-web:
     image: docker-registry.wikimedia.org/dev/bookworm-apache2:1.0.1
-    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+    user: "${MW_DOCKER_UID:-config/.env}:${MW_DOCKER_GID:-config/.env}"
     ports:
       - "${MW_DOCKER_PORT:-8080}:8080"
     volumes:
-      - "./core:${MW_INSTALL_PATH}:cached"
+      - "./core:${MW_INSTALL_PATH:-config/.env}:cached"
       - "./config:/srv/mediawiki-config:cached"
-      - "./extensions:${MW_INSTALL_PATH}/extensions"
-      - "./skins:${MW_INSTALL_PATH}/skins"
-      - "./services:${MW_INSTALL_PATH}/services"
-      - "./tools:${MW_INSTALL_PATH}/tools"
+      - "./extensions:${MW_INSTALL_PATH:-config/.env}/extensions"
+      - "./skins:${MW_INSTALL_PATH:-config/.env}/skins"
+      - "./services:${MW_INSTALL_PATH:-config/.env}/services"
+      - "./tools:${MW_INSTALL_PATH:-config/.env}/tools"
     env_file: config/.env
     networks: [ mw ]
   mediawiki-jobrunner:
     image: docker-registry.wikimedia.org/dev/bookworm-php83-jobrunner:1.0.0-s4
-    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+    user: "${MW_DOCKER_UID:-config/.env}:${MW_DOCKER_GID:-config/.env}"
     volumes:
-      - "./core:${MW_INSTALL_PATH}:cached"
+      - "./core:${MW_INSTALL_PATH:-config/.env}:cached"
       - "./config:/srv/mediawiki-config:cached"
-      - "./extensions:${MW_INSTALL_PATH}/extensions"
-      - "./skins:${MW_INSTALL_PATH}/skins"
-      - "./services:${MW_INSTALL_PATH}/services"
-      - "./tools:${MW_INSTALL_PATH}/tools"
+      - "./extensions:${MW_INSTALL_PATH:-config/.env}/extensions"
+      - "./skins:${MW_INSTALL_PATH:-config/.env}/skins"
+      - "./services:${MW_INSTALL_PATH:-config/.env}/services"
+      - "./tools:${MW_INSTALL_PATH:-config/.env}/tools"
     env_file: config/.env
     networks: [ mw ]
   elasticsearch:
@@ -50,6 +50,7 @@ services:
       - esdata:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
+    env_file: config/.env
     networks: [ mw ]
     profiles: [ "elasticsearch" ]
   opensearch:
@@ -58,6 +59,7 @@ services:
       - osdata:/usr/share/opensearch/data
     environment:
       - discovery.type=single-node
+    env_file: config/.env
     networks: [ mw ]
     profiles: [ "opensearch" ]
   mariadb:
@@ -65,10 +67,11 @@ services:
     volumes:
       - mariadbdata:/var/lib/mysql
     environment:
-      - MARIADB_ROOT_PASSWORD=${MWC_DB_ROOT_PASSWORD}
-      - MARIADB_USER=${MWC_DB_USER}
-      - MARIADB_PASSWORD=${MWC_DB_PASSWORD}
-      - MARIADB_DATABASE=${MWC_DB_DATABASE}
+      - MARIADB_ROOT_PASSWORD=${MWC_DB_ROOT_PASSWORD:-config/.env}
+      - MARIADB_USER=${MWC_DB_USER:-config/.env}
+      - MARIADB_PASSWORD=${MWC_DB_PASSWORD:-config/.env}
+      - MARIADB_DATABASE=${MWC_DB_DATABASE:-config/.env}
+    env_file: config/.env
     networks: [ mw ]
     profiles: [ "mariadb" ]
   mysql:
@@ -76,10 +79,11 @@ services:
     volumes:
       - mysqldata:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=${MWC_DB_ROOT_PASSWORD}
-      - MYSQL_USER=${MWC_DB_USER}
-      - MYSQL_PASSWORD=${MWC_DB_PASSWORD}
-      - MYSQL_DATABASE=${MWC_DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MWC_DB_ROOT_PASSWORD:-config/.env}
+      - MYSQL_USER=${MWC_DB_USER:-config/.env}
+      - MYSQL_PASSWORD=${MWC_DB_PASSWORD:-config/.env}
+      - MYSQL_DATABASE=${MWC_DB_DATABASE:-config/.env}
+    env_file: config/.env
     networks: [ mw ]
     profiles: [ "mysql" ]
   function-orchestrator:
@@ -87,6 +91,7 @@ services:
     # Un-comment this if you're using a local build, by running this in your check-out of the orchestrator:
     # docker build -f .pipeline/blubber.yaml --target development -t local-orchestrator .
     # image: local-orchestrator:latest
+    env_file: config/.env
     networks: [ mw ]
     profiles: [ "wikifunctions" ]
     environment:
@@ -131,6 +136,7 @@ services:
     # Un-comment this if you're using a local build, by running this in your check-out of the evaluator:
     # docker build -f .pipeline/blubber.yaml --target development-javascript-all-wasm -t local-evaluator-js .
     # image: local-evaluator-js:latest
+    env_file: config/.env
     networks: [ mw ]
     profiles: [ "wikifunctions" ]
   function-evaluator-python:
@@ -138,6 +144,7 @@ services:
     # Un-comment this if you're using a local build, by running this in your check-out of the evaluator:
     # docker build -f .pipeline/blubber.yaml --target development-python3-all-wasm -t local-evaluator-py .
     # image: local-evaluator-py:latest
+    env_file: config/.env
     networks: [ mw ]
     profiles: [ "wikifunctions" ]
 

@@ -16,3 +16,6 @@ RUN echo 'extension=luasandbox.so' > /etc/php/8.3/mods-available/luasandbox.ini 
 # Install Excimer
 RUN apt-get update && \
     apt-get install php8.3-excimer
+
+RUN mkdir -p "/opt/phpstorm-coverage" && \
+    chmod a+rw "/opt/phpstorm-coverage"
