@@ -8,6 +8,7 @@
 namespace MediaWikiConfig;
 
 use Exception;
+use Extension;
 use LogicException;
 use MediaWiki\MainConfigNames;
 
@@ -65,6 +66,28 @@ class ConfirmEditFancyCaptcha extends ConfirmEditCaptcha {
 
 trait MWCExtensions {
 
+	private ?array $extensions = null;
+
+	public function extension( string $name, ?array $options = [] ): self {
+		$this->extensions ??= require_once 'Extensions.php';
+
+		if ( array_key_exists( $name, $this->extensions ) ) {
+			$callable = $this->extensions[$name];
+			wfLoadExtension( $name );
+			if ( $callable ) {
+				$ext = ( $callable )();
+				/** @var Extension $ext */
+				$ext->enable( $this );
+				if ( $options !== null ) {
+					$ext->applyOptions( $this, $options );
+				}
+			}
+			return $this;
+		}
+
+		return $this->ext( $name );
+	}
+
 	private array $extensionFunctionMappings = [
 		'Echo' => 'Echo_',
 		'3D' => '_3D',
@@ -77,25 +100,17 @@ trait MWCExtensions {
 	}
 
 	public function _3D(): self {
-		return $this
-			->ext( '3D' )
-			->allowFileExtensions( 'stl' )
-			->appendToIndexedConfArray( 'wgTrustedMediaFormats', 'application/sla' );
+		return $this->extension( '3D' );
 	}
 
 	public function _3DAlloy(): self {
-		return $this->ext( '3DAlloy' );
+		return $this->extension( '3DAlloy' );
 	}
 
 	public function AbuseFilter(): self {
-		$farm = $this->getFarm();
-		if ( $farm ) {
-			$this->conf( 'wgAbuseFilterCentralDB', $farm->getCentralWiki() );
-			if ( $this->getConf( 'wgDBname' ) === $this->getConf( 'wgAbuseFilterCentralDB' ) ) {
-				$this->conf( 'wgAbuseFilterIsCentral', true );
-			}
-		}
-		return $this->ext( 'AbuseFilter' );
+		return $this
+			->extension( 'AbuseFilter' )
+			->grantPermission( 'sysop', 'abusefilter-modify-global' );
 	}
 
 	public function AdvancedSearch(): self {
@@ -128,9 +143,7 @@ trait MWCExtensions {
 	 * @param string[] $categories
 	 */
 	public function ArticleFeedbackv5( array $categories = [] ): self {
-		return $this
-			->ext( 'ArticleFeedbackv5' )
-			->conf( 'wgArticleFeedbackv5Categories', $categories );
+		return $this->extension( 'ArticleFeedbackv5', [ 'categories' => $categories ] );
 	}
 
 	public function ArticleGuidance(): self {
@@ -550,6 +563,10 @@ trait MWCExtensions {
 		return $this->ext( 'GeoData' );
 	}
 
+	public function GlobalCssJs(): self {
+		return $this->extension( 'GlobalCssJs' );
+	}
+
 	public function GlobalUserPage( string $apiUrl = 'http://mediawiki-web:8080/w/api.php' ): self {
 		$farm = $this->getFarm();
 		if ( $farm ) {
@@ -844,7 +861,10 @@ trait MWCExtensions {
 			$this->conf( 'wgMWOAuthSharedUserIDs', true )
 				->conf( 'wgMWOAuthSharedUserSource', 'local' );
 		}
-		return $this->ext( 'OAuth' );
+		return $this
+			->ext( 'OAuth' )
+			->grantPermission( 'sysop', 'mwoauthproposeconsumer' )
+			->grantPermission( 'sysop', 'mwoauthmanageconsumer' );
 	}
 
 	public function OreDict(): self {

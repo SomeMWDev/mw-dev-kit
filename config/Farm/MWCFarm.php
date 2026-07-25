@@ -141,4 +141,10 @@ class MWCFarm {
 		return $this->centralWiki;
 	}
 
+	public function getScriptPath( string $wiki ): string {
+		$port = getenv( 'MW_DOCKER_PORT' );
+		$wiki = $this->wikis[$wiki];
+		return "http://$wiki->subdomain.localhost:$port/w";
+	}
+
 }

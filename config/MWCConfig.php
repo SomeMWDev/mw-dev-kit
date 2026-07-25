@@ -170,4 +170,8 @@ trait MWCConfig {
 		return $wgMwcFarm;
 	}
 
+	public function getCentralWiki(): string {
+		return $this->getFarm()?->getCentralWiki() ?? $this->getConf( 'wgDBname' );
+	}
+
 }
