@@ -8,10 +8,3 @@ services:
     ports: [ "${MARIADB_PORT:-3306}:3306" ]
   mysql:
     ports: [ "${MYSQL_PORT:-3307}:3306" ]
-
-# Install excimer to allow profiling
-  mediawiki:
-    build:
-      # docker compose --env-file config/.env -p main build
-      dockerfile: features/profiling/profiling.Dockerfile
-      context: .
