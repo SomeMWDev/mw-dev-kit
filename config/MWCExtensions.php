@@ -1124,12 +1124,7 @@ trait MWCExtensions {
 	}
 
 	public function SecurePoll(): self {
-		return $this
-			->ext( 'SecurePoll' )
-			->grantPermissions(
-				'sysop',
-				'securepoll-create-poll', 'securepoll-edit-poll', 'securepoll-view-voter-pii'
-			);
+		return $this->extension( 'SecurePoll' );
 	}
 
 	public function SemanticDrilldown(): self {

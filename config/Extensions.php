@@ -15,12 +15,14 @@ class Extension {
 	 * @param array<string, mixed> $config
 	 * @param list<string> $dependencies
 	 * @param Closure(MediaWikiConfig, array<string, mixed>): void|null $optionsCallback
+	 * @param array<string, array<string, bool>> $permissions
 	 */
 	public function __construct(
 		private readonly ?Closure $callback = null,
 		private readonly array $config = [],
 		private readonly array $dependencies = [],
 		private readonly ?Closure $optionsCallback = null,
+		private readonly array $permissions = [],
 	) {
 	}
 
@@ -28,6 +30,7 @@ class Extension {
 		foreach ( $this->dependencies as $dependency ) {
 			$config->extension( $dependency );
 		}
+
 		$farm = $config->getFarm();
 		$centralWiki = $farm?->getCentralWiki() ?? $config->getConf( 'wgDBname' );
 		foreach ( $this->config as $k => $v ) {
@@ -44,6 +47,13 @@ class Extension {
 				$GLOBALS[$k] = $v;
 			}
 		}
+
+		foreach ( $this->permissions as $group => $permissions ) {
+			foreach ( $permissions as $permission => $grant ) {
+				$config->grantPermission( $group, $permission, $grant );
+			}
+		}
+
 		if ( $this->callback ) {
 			( $this->callback )( $config );
 		}
@@ -111,5 +121,18 @@ return [
 				],
 			);
 		},
+	),
+	'SecurePoll' => static fn () => new Extension(
+		config: [
+			'wgSecurePollSingleTransferableVoteEnabled' => true,
+			'wgSecurePollUseLogging' => true,
+		],
+		permissions: [
+			'electionadmin' => [
+				'securepoll-create-poll' => true,
+				'securepoll-edit-poll' => true,
+				'securepoll-view-voter-pii' => true,
+			],
+		],
 	),
 ];
