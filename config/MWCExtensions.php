@@ -837,6 +837,10 @@ trait MWCExtensions {
 		return $this->ext( 'Newsletter' );
 	}
 
+	public function NewUserMessage(): self {
+		return $this->extension( 'NewUserMessage' );
+	}
+
 	public function NoTitle(): self {
 		return $this->ext( 'NoTitle' );
 	}

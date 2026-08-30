@@ -122,6 +122,7 @@ return [
 			);
 		},
 	),
+	'NewUserMessage' => null,
 	'SecurePoll' => static fn () => new Extension(
 		config: [
 			'wgSecurePollSingleTransferableVoteEnabled' => true,
