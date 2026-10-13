@@ -14,4 +14,7 @@ jobs:
         with:
           php_version: '8.5'
       - name: Lint PHP code
-        run: composer run test
+        uses: php-actions/composer@v6
+        with:
+          command: 'run test'
+          php_version: '8.5'
