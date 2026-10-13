@@ -101,6 +101,11 @@ return [
 		},
 	),
 	'ArticleGuidance' => null,
+	'CookieWarning' => static fn () => new Extension(
+		config: [
+			'wgCookieWarningEnabled' => true,
+		]
+	),
 	'GlobalCssJs' => static fn () => new Extension(
 		callback: static function ( MediaWikiConfig $mwc ) {
 			if ( !$mwc->getFarm() ) {

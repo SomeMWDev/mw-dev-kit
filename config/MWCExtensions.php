@@ -323,6 +323,10 @@ trait MWCExtensions {
 			->defaultUserOption( 'usecodemirror', true );
 	}
 
+	public function CookieWarning(): self {
+		return $this->extension( 'CookieWarning' );
+	}
+
 	public function Collection(): self {
 		return $this->ext( 'Collection' );
 	}
