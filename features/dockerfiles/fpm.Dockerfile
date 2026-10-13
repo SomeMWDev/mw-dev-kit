@@ -10,7 +10,7 @@ FROM docker-registry.wikimedia.org/dev/trixie-php85-fpm:1.0.0
 
 # Install LuaSandbox
 RUN apt update && apt install liblua5.1-0 -y
-COPY --from=build /src/luasandbox/modules/luasandbox.so /usr/lib/php/20230831/luasandbox.so
+COPY --from=build /src/luasandbox/modules/luasandbox.so /usr/lib/php/20250925/luasandbox.so
 RUN echo 'extension=luasandbox.so' > /etc/php/8.5/mods-available/luasandbox.ini && phpenmod luasandbox
 
 RUN mkdir -p "/opt/phpstorm-coverage" && \
