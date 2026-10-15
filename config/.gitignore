@@ -1,3 +1,4 @@
 .env
 MWCPrivate.php
 farm-config.json
+farm-config.backup.json
