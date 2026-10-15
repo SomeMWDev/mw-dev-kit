@@ -972,6 +972,10 @@ trait MWCExtensions {
 		return $this->ext( 'ProtectSite' );
 	}
 
+	public function Push(): self {
+		return $this->extension( 'Push' );
+	}
+
 	public function QuickInstantCommons( ?string $apiUrl = null, ?string $name = null ): self {
 		if ( $apiUrl !== null ) {
 			// See https://www.mediawiki.org/wiki/Extension:QuickInstantCommons#Advanced_Configuration

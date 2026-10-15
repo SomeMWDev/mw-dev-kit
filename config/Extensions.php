@@ -128,6 +128,17 @@ return [
 		},
 	),
 	'NewUserMessage' => null,
+	'Push' => static fn () => new Extension(
+		callback: static function ( MediaWikiConfig $mwc ) {
+			if ( $mwc->getFarm() ) {
+				$pushTargets = [];
+				foreach ( $mwc->getFarm()->getWikis() as $db => $wiki ) {
+					$pushTargets[$wiki->name ?? $db] = $mwc->getFarm()->getScriptPath( $db );
+				}
+				$mwc->conf( 'egPushTargets', $pushTargets );
+			}
+		},
+	),
 	'SecurePoll' => static fn () => new Extension(
 		config: [
 			'wgSecurePollSingleTransferableVoteEnabled' => true,
