@@ -1,4 +1,4 @@
-FROM docker-registry.wikimedia.org/dev/trixie-php85-jobrunner:1.0.0-s3 AS build
+FROM docker-registry.wikimedia.org/dev/trixie-php85-jobrunner:1.0.0-s4 AS build
 
 # Compile LuaSandbox from source
 WORKDIR /src
@@ -6,7 +6,7 @@ RUN git clone https://gerrit.wikimedia.org/r/mediawiki/php/luasandbox
 RUN apt update && apt install php8.5-dev liblua5.1-0-dev -y
 RUN cd luasandbox && phpize && ./configure && make
 
-FROM docker-registry.wikimedia.org/dev/trixie-php85-jobrunner:1.0.0-s3
+FROM docker-registry.wikimedia.org/dev/trixie-php85-jobrunner:1.0.0-s4
 
 # Install LuaSandbox
 RUN apt update && apt install liblua5.1-0 -y
